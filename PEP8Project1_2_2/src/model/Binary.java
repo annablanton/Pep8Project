@@ -2,25 +2,38 @@ package model;
 
 public class Binary extends Number {
     public Binary(int theVal) {
-        super(theVal);
+        super(toPaddedBinaryString(theVal));
     }
-    public String getVal() {
-        int v = super.getRawVal();
-        String returnMe = "";
-        for (int i = v; i > 0; i >>= 1) {
-            String temp;
-            if (i % 2 == 0) {
-                temp = "0";
-            } else {
-                temp = "1";
-            }
-            returnMe = temp + returnMe;
-        }
 
-        while (returnMe.length() < 8) {
-            returnMe = "0" + returnMe;
+    public void setVal(int theVal) {
+        setVal(toPaddedBinaryString(theVal));
+    }
+
+    private static String toPaddedBinaryString(int theVal) {
+        String b = Integer.toBinaryString(theVal);
+        if (b.length() < 8) {
+//            StringBuilder padding = new StringBuilder();
+//            for (int i = b.length(); i < 8; i++) {
+//                padding.append("0");
+//            }
+            String p = "0";
+            p = p.repeat(8-b.length());
+            p+=b;
+            b = p;
         }
-        return returnMe;
+        return b;
+    }
+
+    public boolean equals(Binary b) {
+        return super.equals(b);
+    }
+
+    public int compareTo(Binary b) {
+        return super.compareTo(b);
+    }
+
+    public String toString() {
+        return "0b" + getVal();
     }
 
 }
