@@ -43,7 +43,7 @@ import javax.swing.filechooser.FileSystemView;
  * @author GROUP 6 Taehong Kim
  * @version 10/18/2020
  */
-public class GUI extends JFrame implements ActionListener{ 
+public class GUI extends JFrame implements ActionListener {
 	/**SerialVersion for GUI class.**/
 	private static final long serialVersionUID = 1L;
 	/**Setting Object code text area.**/
