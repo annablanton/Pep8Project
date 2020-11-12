@@ -1,6 +1,7 @@
 package test;
 
 import model.ALU;
+import model.Register;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,39 +15,47 @@ import static org.junit.Assert.assertEquals;
  */
 public class ALUTest {
     ALU alu;
+    Register r;
 
     @Before
     public void setUp() {
         alu = new ALU();
+        r = new Register();
     }
 
     @Test
     public void testAdd() {
-        assertEquals(20, alu.add((short) 13, (short) 7));
+        r.load((short) 13);
+        assertEquals(20, alu.add(r, (short) 7));
     }
 
     @Test
     public void testSubtract() {
-        assertEquals(5, alu.subtract((short)15, (short)10));
+        r.load((short) 15);
+        assertEquals(5, alu.subtract(r, (short)10));
     }
 
     @Test
     public void testAddOverflow() {
-        assertEquals(-32765, alu.add((short) 32767, (short) 4));
+        r.load((short)32767);
+        assertEquals(-32765, alu.add(r, (short) 4));
     }
 
     @Test
     public void testSubtractUnderflow() {
-        assertEquals(32765, alu.subtract((short) -32768, (short) 3));
+        r.load((short) -32768);
+        assertEquals(32765, alu.subtract(r, (short) 3));
     }
 
     @Test
     public void testSubtractToNeg() {
-        assertEquals(-3, alu.subtract((short) 3, (short) 6));
+        r.load((short) 3);
+        assertEquals(-3, alu.subtract(r, (short) 6));
     }
 
     @Test
     public void testAddToPos() {
-        assertEquals( 3, alu.add((short) -3, (short) 6));
+        r.load((short) -3);
+        assertEquals( 3, alu.add(r, (short) 6));
     }
 }

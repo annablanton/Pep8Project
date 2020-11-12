@@ -137,6 +137,50 @@ public class ALU {
 		subtract(r, x2);
 	}
 
+	public short not(Register r) {
+		resetFlags();
+		short x = r.getReg();
+		if (x < 0) {
+			nFlag.setFlag(true);
+		} else if (x == 0) {
+			zFlag.setFlag(true);
+		}
+		return (short) ~x;
+	}
+
+	public short negate(Register r) {
+		resetFlags();
+		short x = r.getReg();
+		if (x < 0) {
+			nFlag.setFlag(true);
+		} else if (x == 0) {
+			zFlag.setFlag(true);
+		}
+		return (short) (~x+1);
+	}
+
+	public short arithshiftl(Register r) {
+		resetFlags();
+		short x = r.getReg();
+		boolean[] boolArr1 = toBoolArray(x);
+		cFlag.setFlag(boolArr1[0]);
+		x <<= 1;
+		boolean[] boolArr2 = toBoolArray(x);
+		if (boolArr2[0] != boolArr1[0]) {
+			vFlag.setFlag(true);
+		}
+
+		if (x < 0) {
+			nFlag.setFlag(true);
+		} else if (x == 0) {
+			zFlag.setFlag(true);
+		}
+
+		return x;
+	}
+
+
+
 	public boolean nFlagIsSet() {
 		return nFlag.isSet();
 	}
