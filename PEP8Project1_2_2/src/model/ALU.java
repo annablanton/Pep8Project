@@ -42,6 +42,7 @@ public class ALU {
 				val2 = boolArray2[i];
 				if (val1 & val2) {
 					booleanResult[i] = cFlag.isSet();
+					//cFlag should be true at the end if the last bit had a carry
 					cFlag.setFlag(true);
 				} else if (val1 || val2) {
 					if (cFlag.isSet()) {
