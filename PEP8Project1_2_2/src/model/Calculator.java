@@ -1,6 +1,11 @@
 package model;
 
+import java.util.Map;
+
 public abstract class Calculator implements Convertible {
+    public Calculator() {
+
+    }
     public abstract Number add(Number x, Number y);
     public abstract Number subtract(Number x, Number y);
     public abstract Number divide(Number x, Number y);
@@ -24,8 +29,26 @@ public abstract class Calculator implements Convertible {
     protected static int hexToInt(Hex h) {
         String s = h.getVal();
         int num = 0;
+        Map<Character, Integer> m = Map.ofEntries(
+                                Map.entry('0', 0),
+                                Map.entry('1', 1),
+                                Map.entry('2', 2),
+                                Map.entry('3', 3),
+                                Map.entry('4', 4),
+                                Map.entry('5', 5),
+                                Map.entry('6', 6),
+                                Map.entry('7', 7),
+                                Map.entry('8', 8),
+                                Map.entry('9', 9),
+                                Map.entry('A', 10),
+                                Map.entry('B', 11),
+                                Map.entry('C', 12),
+                                Map.entry('D', 13),
+                                Map.entry('E', 14),
+                                Map.entry('F', 15)
+        );
         for (int i = 0; i < s.length(); i++) {
-            num+= Integer.parseInt(String.valueOf(s.charAt(i))) * Math.pow(16, s.length() - i - 1);
+            num+= m.get(s.charAt(i)) * Math.pow(16, s.length() - i - 1);
         }
         return num;
     }

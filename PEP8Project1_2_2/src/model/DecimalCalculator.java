@@ -6,8 +6,11 @@ import java.util.function.IntSupplier;
 public class DecimalCalculator extends Calculator {
     //TODO implement decimal calculator
 
+    public DecimalCalculator() {
+
+    }
     public Number add(Number x, Number y) throws IllegalArgumentException {
-        return operation(x, y, (a, b) -> a + b);
+        return operation(x, y, Integer::sum);
     }
 
     public Number subtract(Number x, Number y) {
