@@ -132,7 +132,6 @@ public class CPU {
 		}
 		
 		if (rtnVal == 99) {
-			rtnVal = 99;
 			System.out.println("Error: Unknown Opcode!");
 			System.out.println("Opcode: " + byte1);
 		}
@@ -176,12 +175,8 @@ public class CPU {
 					boolean[] wholeBool = this.toBoolArray(whole);
 					boolean[] half1 = new boolean[8];
 					boolean[] half2 = new boolean[8];
-					for (int i = 0; i < half1.length; i++) {
-						half1[i] = wholeBool[i];
-					}
-					for (int i = 0; i < half2.length; i++) {
-						half2[i] = wholeBool[i + 8];
-					}
+					System.arraycopy(wholeBool, 0, half1, 0, half1.length);
+					System.arraycopy(wholeBool, 8, half2, 0, half2.length);
 					byte sHalf1 = this.toByte(half1);
 					byte sHalf2 = this.toByte(half2);
 					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
@@ -192,7 +187,7 @@ public class CPU {
 					//Add the operand to the A register
 					//immediate addressing mode
 					short fuse = this.fuseBytes(operSpec1, operSpec2);
-					regA.load(myALU.add(fuse, regA.getReg()));
+					regA.load(myALU.add(regA, fuse));
 						
 				} else if (instrType == 5) {
 					//Add the operand to the A register
@@ -202,13 +197,13 @@ public class CPU {
 			        byte addressVal = m.getDataAt(address);
 			        byte addressRVal = m.getDataAt(addressR);
 			        short fuse = this.fuseBytes(addressVal, addressRVal);
-					regA.load(myALU.add(fuse, regA.getReg()));
+					regA.load(myALU.add(regA, fuse));
 						
 				} else if (instrType == 6) {
 					//Subtract the operand to the A register
 					//immediate addressing mode
 					short fuse = this.fuseBytes(operSpec1, operSpec2);
-					regA.load(myALU.subtract(regA.getReg(), fuse));
+					regA.load(myALU.subtract(regA, fuse));
 					
 				} else if (instrType == 7) {
 					//Subtract the operand to the A register
@@ -218,7 +213,7 @@ public class CPU {
 			        byte addressVal = m.getDataAt(address);
 			        byte addressRVal = m.getDataAt(addressR);
 			        short fuse = this.fuseBytes(addressVal, addressRVal);
-					regA.load(myALU.subtract(regA.getReg(), fuse));
+					regA.load(myALU.subtract(regA, fuse));
 					
 				} else if (instrType == 8) {
 					//Char input to location of operand
@@ -259,14 +254,9 @@ public class CPU {
 		boolean[] oper1Array = this.toBoolArray(b1);
 		boolean[] oper2Array = this.toBoolArray(b2);
 		boolean[] fuseArray = new boolean[16];
-		for (int i = 0; i < oper1Array.length; i++) {
-			fuseArray[i] = oper1Array[i];
-		}
-		for (int i = 0; i < oper2Array.length; i++) {
-			fuseArray[8 + i] = oper2Array[i];
-		}
-		short fuse = this.toShort(fuseArray);
-		return fuse;
+		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
+		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
+		return this.toShort(fuseArray);
 	}
 	
 	/**
@@ -276,7 +266,7 @@ public class CPU {
 	 */
 	private boolean[] toBoolArray(byte x) {
 		boolean[] rtnArray = new boolean[8];
-		byte twoPow[] = {64, 32, 16, 8, 4, 2, 1};
+		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
 		for (int i = 0; i < rtnArray.length; i++) {
 			if (i == 0) {
 				if (x < 0) {
@@ -302,7 +292,7 @@ public class CPU {
 	 */
 	private short toShort(boolean[] boolArray) {
 		short rtnShort = 0;
-		short twoPow[] = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
 		for (int i = 0; i < boolArray.length; i++) {
 			if (i == 0) {
 				if (boolArray[i]) {
@@ -327,12 +317,8 @@ public class CPU {
 		boolean[] oper1Array = this.toBoolArray(b1);
 		boolean[] oper2Array = this.toBoolArray(b2);
 		boolean[] fuseArray = new boolean[16];
-		for (int i = 0; i < oper1Array.length; i++) {
-			fuseArray[i] = oper1Array[i];
-		}
-		for (int i = 0; i < oper2Array.length; i++) {
-			fuseArray[8 + i] = oper2Array[i];
-		}
+		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
+		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
 		return this.toShort(fuseArray);
 	}
 	

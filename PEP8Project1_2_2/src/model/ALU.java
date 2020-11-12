@@ -25,11 +25,13 @@ public class ALU {
 	
 	/**
 	 * Adds two shorts together, this method breaks the shorts down to simulate the internal workings of an ALU.
-	 * @param x1 The first short value.
+	 * @param r The Register.
 	 * @param x2 The second short value.
 	 * @return The sum of our two short values.
 	 */
-	public short add(short x1, short x2) {
+	public short add(Register r, short x2) {
+		resetFlags();
+		short x1 = r.getReg();
 		boolean[] boolArray1 = toBoolArray(x1);
 		boolean[] boolArray2 = toBoolArray(x2);
 		boolean val1;
@@ -74,19 +76,17 @@ public class ALU {
 	 * Add two short values together when one of them is stored in a register.
 	 * @param x The first short value that we want to add.
 	 * @param reg The register where our second short value is stored.
-	 * @return The sum of our two short values.
 	 */
 	public short add(short x, Register reg) {
-		return add(reg.getReg(), x);
+		return add(reg, x);
 	}
 	
 	/**
 	 * Subtract two short values, this method breaks them down to simulate the inner workings of an ALU.
-	 * @param x1 The first short value that we want to manipulate.
-	 * @param x2 The short value that we wish to subtract from x1.
-	 * @return The result of x1 - x2, this will be a short.
+	 * @param r The Register we are subtracting from.
+	 * @param x2 The short value that we wish to subtract from r.
 	 */
-	public short subtract(short x1, short x2) {
+	public short subtract(Register r, short x2) {
 		//subtract by adding the negative of the second number to the first
 		boolean[] boolArray2 = toBoolArray(x2);
 		for (int i = 0; i < boolArray2.length; i++) {
@@ -103,27 +103,54 @@ public class ALU {
 				}
 			}
 		}
-		return add(x1, toShort(boolArray2));
+		return add(r, toShort(boolArray2));
 	}
-	
-	/**
-	 * Subtracts two short values, one of which is stored in a register.
-	 * @param reg The short value that we will manipulate, stored in a register.
-	 * @param x The short value which we will subtract from the value in the register.
-	 * @return The result of the subtraction.
-	 */
-	public short subtract(Register reg, short x) {
-		return subtract(reg.getReg(), x);
+
+	public short and(Register r, short x2) {
+		short x1 = r.getReg();
+		resetFlags();
+		short ret = (short) (x1 & x2);
+		if (ret < 0) {
+			nFlag.setFlag(true);
+		} else if (ret == 0) {
+			zFlag.setFlag(true);
+		}
+		return ret;
 	}
-	
-	/**
-	 * Subtracts two short values, one of which is stored in a register.
-	 * @param x The short value that we will manipulate.
-	 * @param reg A register holding a short value which we will subtract from x.
-	 * @return The result of our subtraction.
-	 */
-	public short subtract(short x, Register reg) {
-		return subtract(reg.getReg(), x);
+
+	public short or(Register r, short x2) {
+		resetFlags();
+		short x1 = r.getReg();
+		short ret = (short) (x1 | x2);
+		if (ret < 0) {
+			nFlag.setFlag(true);
+		} else if (ret == 0) {
+			zFlag.setFlag(true);
+		}
+		return ret;
+	}
+
+	public void compare(Register r, short x2) {
+		resetFlags();
+		short x1 = r.getReg();
+		//by subtracting without returning, comparison is complete
+		subtract(r, x2);
+	}
+
+	public boolean nFlagIsSet() {
+		return nFlag.isSet();
+	}
+
+	public boolean zFlagIsSet() {
+		return zFlag.isSet();
+	}
+
+	public boolean vFlagIsSet() {
+		return vFlag.isSet();
+	}
+
+	public boolean cFlagIsSet() {
+		return cFlag.isSet();
 	}
 	
 	/**
@@ -174,5 +201,11 @@ public class ALU {
 			}
 		}
 		return rtnShort;
+	}
+	private void resetFlags() {
+		nFlag.setFlag(false);
+		zFlag.setFlag(false);
+		vFlag.setFlag(false);
+		cFlag.setFlag(false);
 	}
 }
