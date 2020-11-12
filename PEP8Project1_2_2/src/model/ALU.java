@@ -10,8 +10,17 @@ public class ALU {
 	/**
 	 * Initializes our ALU.
 	 */
+
+	private Flag nFlag;
+	private Flag zFlag;
+	private Flag vFlag;
+	private Flag cFlag;
+
 	public ALU() {
-	
+		nFlag = Flag.N;
+		zFlag = Flag.Z;
+		vFlag = Flag.V;
+		cFlag = Flag.C;
 	}
 	
 	/**
@@ -23,42 +32,41 @@ public class ALU {
 	public short add(short x1, short x2) {
 		boolean[] boolArray1 = toBoolArray(x1);
 		boolean[] boolArray2 = toBoolArray(x2);
-		boolean val1 = false;
-		boolean val2 = false;
-		boolean carry = false;
+		boolean val1;
+		boolean val2;
+		cFlag.setFlag(false);
 		boolean[] booleanResult = new boolean[16];
 		if(boolArray1.length == boolArray2.length) {
 			for (int i = boolArray1.length - 1; i >= 0; i--) {
 				val1 = boolArray1[i];
 				val2 = boolArray2[i];
 				if (val1 & val2) {
-					if (carry) {
-						booleanResult[i] = true;
-						carry = true;
-					} else {
-						booleanResult[i] = false;
-						carry = true;
-					}
+					booleanResult[i] = cFlag.isSet();
+					cFlag.setFlag(true);
 				} else if (val1 || val2) {
-					if (carry) {
+					if (cFlag.isSet()) {
 						booleanResult[i] = false;
-						carry = true;
+						cFlag.setFlag(true);
 					} else {
 						booleanResult[i] = true;
-						carry = false;
+						cFlag.setFlag(false);
 					}
 				} else {
-					if (carry) {
-						booleanResult[i] = true;
-						carry = false;
-					} else {
-						booleanResult[i] = false;
-						carry = false;
-					}
+					booleanResult[i] = cFlag.isSet();
+					cFlag.setFlag(false);
 				}
 			}
+			if ((boolArray1[boolArray1.length-1] == boolArray2[boolArray2.length-1]) && (booleanResult[booleanResult.length-1]!=boolArray1[boolArray1.length-1])) {
+				vFlag.setFlag(true);
+			}
 		}
-		return toShort(booleanResult);
+		short s = toShort(booleanResult);
+		if (s == 0) {
+			zFlag.setFlag(true);
+		} else if (s < 0) {
+			nFlag.setFlag(true);
+		}
+		return s;
 	}
 	
 	/**
@@ -81,11 +89,7 @@ public class ALU {
 		//subtract by adding the negative of the second number to the first
 		boolean[] boolArray2 = toBoolArray(x2);
 		for (int i = 0; i < boolArray2.length; i++) {
-			if (boolArray2[i]) {
-				boolArray2[i] = false;
-			} else {
-				boolArray2[i] = true;
-			}
+			boolArray2[i] = !boolArray2[i];
 		}
 		boolean breaker = false;
 		for (int i = boolArray2.length - 1; i >= 0; i--) {
@@ -128,7 +132,7 @@ public class ALU {
 	 */
 	private boolean[] toBoolArray(short x) {
 		boolean[] rtnArray = new boolean[16];
-		short twoPow[] = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
 		for (int i = 0; i < rtnArray.length; i++) {
 			if (i == 0) {
 				if (x < 0) {
@@ -156,7 +160,7 @@ public class ALU {
 	 */
 	private short toShort(boolean[] boolArray) {
 		short rtnShort = 0;
-		short twoPow[] = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
 		for (int i = 0; i < boolArray.length; i++) {
 			if (i == 0) {
 				if (boolArray[i]) {
