@@ -73,85 +73,85 @@ public class Memory {
 		}
 	}
 
-	public MachineInstruction test(short addr) {
-		byte instr = mem[Short.toUnsignedInt(addr)];
-		Binary binInstr = new Binary(instr);
-		String binString = binInstr.getVal();
-		if (binString.equals("00000000")) {
-			return new StopInstruction();
-		} else if (binString.startsWith("01001")) {
-			return switch (binString.substring(5)) {
-				case "000" -> new CharInputInstruction(AddressingMode.IMMEDIATE);
-				case "001" -> new CharInputInstruction(AddressingMode.DIRECT);
-				case "010" -> new CharInputInstruction(AddressingMode.DIRECT);
-				default -> throw new UnsupportedOperationException("Addressing mode for char input instruction unsupported");
-			};
-		} else if (binString.startsWith("01010")) {
-			return switch (binString.substring(5)) {
-				case "000" -> new CharOutputInstruction(AddressingMode.IMMEDIATE);
-				case "001" -> new CharOutputInstruction(AddressingMode.DIRECT);
-				case "010" -> new CharOutputInstruction(AddressingMode.DIRECT);
-				default -> throw new UnsupportedOperationException("Addressing mode for char output instruction unsupported");
-			};
-		} else if (binString.startsWith("0111")) {
-			RegName rn;
-			if (binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-			return switch (binString.substring(5)) {
-				case "000" -> new AddInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new AddInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new AddInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for add instruction unsupported");
-			};
-		} else if (binString.startsWith("1000")) {
-			RegName rn;
-			if (binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-
-			return switch (binString.substring(5)) {
-				case "000" -> new SubtractInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new SubtractInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new SubtractInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
-			};
-		} else if (binString.startsWith("1100")) {
-			RegName rn;
-			if(binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-
-			return switch (binString.substring(5)) {
-				case "000" -> new LoadInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new LoadInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new LoadInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for load instruction unsupported");
-			};
-		} else if (binString.startsWith("1110")) {
-			RegName rn;
-			if(binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-
-			return switch (binString.substring(5)) {
-				case "000" -> new StoreInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new StoreInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new StoreInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
-			};
-		} else {
-			throw new UnsupportedOperationException("Unknown instruction");
-		}
-	}
+//	public MachineInstruction test(short addr) {
+//		return mem[Short.toUnsignedInt(addr)];
+////		Binary binInstr = new Binary(instr);
+//		String binString = binInstr.getVal();
+//		if (binString.equals("00000000")) {
+//			return new StopInstruction();
+//		} else if (binString.startsWith("01001")) {
+//			return switch (binString.substring(5)) {
+//				case "000" -> new CharInputInstruction(AddressingMode.IMMEDIATE);
+//				case "001" -> new CharInputInstruction(AddressingMode.DIRECT);
+//				case "010" -> new CharInputInstruction(AddressingMode.DIRECT);
+//				default -> throw new UnsupportedOperationException("Addressing mode for char input instruction unsupported");
+//			};
+//		} else if (binString.startsWith("01010")) {
+//			return switch (binString.substring(5)) {
+//				case "000" -> new CharOutputInstruction(AddressingMode.IMMEDIATE);
+//				case "001" -> new CharOutputInstruction(AddressingMode.DIRECT);
+//				case "010" -> new CharOutputInstruction(AddressingMode.DIRECT);
+//				default -> throw new UnsupportedOperationException("Addressing mode for char output instruction unsupported");
+//			};
+//		} else if (binString.startsWith("0111")) {
+//			RegName rn;
+//			if (binString.charAt(4) == '0') {
+//				rn = RegName.A;
+//			} else {
+//				rn = RegName.INDEX;
+//			}
+//			return switch (binString.substring(5)) {
+//				case "000" -> new AddInstruction(AddressingMode.IMMEDIATE, rn);
+//				case "001" -> new AddInstruction(AddressingMode.DIRECT, rn);
+//				case "010" -> new AddInstruction(AddressingMode.INDIRECT, rn);
+//				default -> throw new UnsupportedOperationException("Addressing mode for add instruction unsupported");
+//			};
+//		} else if (binString.startsWith("1000")) {
+//			RegName rn;
+//			if (binString.charAt(4) == '0') {
+//				rn = RegName.A;
+//			} else {
+//				rn = RegName.INDEX;
+//			}
+//
+//			return switch (binString.substring(5)) {
+//				case "000" -> new SubtractInstruction(AddressingMode.IMMEDIATE, rn);
+//				case "001" -> new SubtractInstruction(AddressingMode.DIRECT, rn);
+//				case "010" -> new SubtractInstruction(AddressingMode.INDIRECT, rn);
+//				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
+//			};
+//		} else if (binString.startsWith("1100")) {
+//			RegName rn;
+//			if(binString.charAt(4) == '0') {
+//				rn = RegName.A;
+//			} else {
+//				rn = RegName.INDEX;
+//			}
+//
+//			return switch (binString.substring(5)) {
+//				case "000" -> new LoadInstruction(AddressingMode.IMMEDIATE, rn);
+//				case "001" -> new LoadInstruction(AddressingMode.DIRECT, rn);
+//				case "010" -> new LoadInstruction(AddressingMode.INDIRECT, rn);
+//				default -> throw new UnsupportedOperationException("Addressing mode for load instruction unsupported");
+//			};
+//		} else if (binString.startsWith("1110")) {
+//			RegName rn;
+//			if(binString.charAt(4) == '0') {
+//				rn = RegName.A;
+//			} else {
+//				rn = RegName.INDEX;
+//			}
+//
+//			return switch (binString.substring(5)) {
+//				case "000" -> new StoreInstruction(AddressingMode.IMMEDIATE, rn);
+//				case "001" -> new StoreInstruction(AddressingMode.DIRECT, rn);
+//				case "010" -> new StoreInstruction(AddressingMode.INDIRECT, rn);
+//				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
+//			};
+//		} else {
+//			throw new UnsupportedOperationException("Unknown instruction");
+//		}
+//	}
 	public byte[] getMemoryDump() {
 		return Arrays.copyOf(mem, mem.length);
 	}

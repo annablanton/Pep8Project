@@ -13,6 +13,7 @@ public class StoreInstruction extends MachineInstruction {
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
         Register regA = regMap.get(RegName.A);
+
         loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             throw new UnsupportedOperationException("Illegal operation (cannot use store instruction in immediate mode");
