@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class SubtractInstruction extends MachineInstruction {
     public SubtractInstruction(AddressingMode a, RegName r) {
-        super(a, r);
+        super("1000", a, r);
     }
 
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {

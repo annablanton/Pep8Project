@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class CharInputInstruction extends MachineInstruction {
     public CharInputInstruction(AddressingMode a) {
-        super(a);
+        super("01001", a);
     }
 
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {

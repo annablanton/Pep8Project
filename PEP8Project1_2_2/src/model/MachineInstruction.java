@@ -7,20 +7,24 @@ import java.util.Map;
 public abstract class MachineInstruction {
     private AddressingMode addressingMode;
     private RegName regName;
+    String instrString;
 
-    public MachineInstruction() {
-
+    public MachineInstruction(String is) {
+        instrString = is;
     }
 
-    public MachineInstruction(AddressingMode a) {
+    public MachineInstruction(String is, AddressingMode a) {
+        instrString = is;
         addressingMode = a;
     }
 
-    public MachineInstruction(RegName r) {
+    public MachineInstruction(String is, RegName r) {
+        instrString = is;
         regName = r;
     }
 
-    public MachineInstruction(AddressingMode a, RegName r) {
+    public MachineInstruction(String is, AddressingMode a, RegName r) {
+        instrString = is;
         addressingMode = a;
         regName = r;
     }
