@@ -36,6 +36,9 @@ public class Memory {
 		}
 	}
 
+	public MachineInstruction test() {
+		return new LoadInstruction(AddressingMode.IMMEDIATE, RegName.A);
+	}
 	public byte[] getMemoryDump() {
 		return Arrays.copyOf(mem, mem.length);
 	}

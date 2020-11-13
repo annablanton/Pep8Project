@@ -2,6 +2,7 @@ package model;
 
 import view.GUI;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +42,8 @@ public class CPU {
 	 * Used to tell the cpu if it is the first instruction and it needs to reset the program counter.
 	 */
 	private boolean isFirst;
+
+	private Map<RegName, Register> registerMap;
 	
 	/**
 	 * Initializes our CPU
@@ -51,6 +54,11 @@ public class CPU {
 		regA = new Register();
 		myALU = new ALU();
 		pep8View = view;
+		registerMap = Map.ofEntries(
+                Map.entry(RegName.A, regA),
+                Map.entry(RegName.PC, progCounter),
+                Map.entry(RegName.INSTRUCTION, instrReg)
+        );
 	}
 
 	/**
@@ -62,7 +70,9 @@ public class CPU {
 			progCounter.reset();
 			isFirst = false;
 		}
-		return execute(m, decode(m));
+
+		MachineInstruction test = m.test();
+		return execute(m, test, decode(m));
 	}
 
 	/**
@@ -146,7 +156,7 @@ public class CPU {
 	 * @param instrType
 	 * @return
 	 */
-	private boolean execute(Memory m, int instrType) {
+	private boolean execute(Memory m, MachineInstruction mi, int instrType) {
 		boolean end = false;
 		if (instrType == 0) {
 			//stop execution
@@ -155,12 +165,14 @@ public class CPU {
 			try {
 				byte operSpec1 = (byte) (((instrReg.getReg() & 0xFF00)) >> 8);
 				byte operSpec2 = (byte) (instrReg.getReg() & 0xFF);
-				progCounter.offset((byte) 2);
+				//progCounter.offset((byte) 2);
 				if (instrType == 1) {
 					//load operand into register A
 					//immediate addressing mode
-					short fuse = fuseBytes(operSpec1, operSpec2);
-					regA.load(fuse);
+//					short fuse = fuseBytes(operSpec1, operSpec2);
+//					regA.load(fuse);
+
+                    mi.execute(m, registerMap);
 					
 				} else if (instrType == 2) {
 					//load operand into register A
@@ -172,6 +184,7 @@ public class CPU {
 					regA.load(retr);
 						
 				} else if (instrType == 3) {
+					progCounter.offset((byte) 2);
 					//store the A register to the location in operand
 					short whole = regA.getReg();
 					boolean[] wholeBool = this.toBoolArray(whole);
@@ -186,12 +199,14 @@ public class CPU {
 					m.store((short) (fuse + 1), sHalf2);
 					
 				} else if (instrType == 4) {
+					progCounter.offset((byte) 2);
 					//Add the operand to the A register
 					//immediate addressing mode
 					short fuse = this.fuseBytes(operSpec1, operSpec2);
 					regA.load(myALU.add(regA, fuse));
 						
 				} else if (instrType == 5) {
+					progCounter.offset((byte) 2);
 					//Add the operand to the A register
 					//direct addressing mode
 					short address = this.calculateDirectAddress(operSpec1, operSpec2);
@@ -202,12 +217,14 @@ public class CPU {
 					regA.load(myALU.add(regA, fuse));
 						
 				} else if (instrType == 6) {
+					progCounter.offset((byte) 2);
 					//Subtract the operand to the A register
 					//immediate addressing mode
 					short fuse = this.fuseBytes(operSpec1, operSpec2);
 					regA.load(myALU.subtract(regA, fuse));
 					
 				} else if (instrType == 7) {
+					progCounter.offset((byte) 2);
 					//Subtract the operand to the A register
 					//direct addressing mode
 					short address = this.calculateDirectAddress(operSpec1, operSpec2);
@@ -218,12 +235,14 @@ public class CPU {
 					regA.load(myALU.subtract(regA, fuse));
 					
 				} else if (instrType == 8) {
+					progCounter.offset((byte) 2);
 					//Char input to location of operand
 					byte scannedInput = (byte) pep8View.getBatchInput();
 					short fuse = fuseBytes(operSpec1, operSpec2);
 					m.store(fuse, scannedInput);
 
 				} else if (instrType == 9) {
+					progCounter.offset((byte) 2);
 					//Char output from operand
 					//immediate addressing mode
 					short fuse = this.fuseBytes(operSpec1, operSpec2);
@@ -232,6 +251,7 @@ public class CPU {
 
 					
 				} else if (instrType == 10) {
+					progCounter.offset((byte) 2);
 					//Char output from operand
 					//direct addressing mode
 					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
@@ -319,8 +339,8 @@ public class CPU {
 		boolean[] oper1Array = this.toBoolArray(b1);
 		boolean[] oper2Array = this.toBoolArray(b2);
 		boolean[] fuseArray = new boolean[16];
-		System.arraycopy(oper1Array, 8, fuseArray, 0, 8);
-		System.arraycopy(oper2Array, 8, fuseArray, 8, 8);
+		System.arraycopy(oper1Array, 0, fuseArray, 0, 8);
+		System.arraycopy(oper2Array, 0, fuseArray, 8, 8);
 		return this.toShort(fuseArray);
 	}
 	
@@ -349,6 +369,7 @@ public class CPU {
 					}
 				}
 			}
+			System.out.println(rtnArray.length);
 		return rtnArray;
 	}
 	
@@ -381,83 +402,6 @@ public class CPU {
 	public short[] getRegisters() {
 		return new short[] {instrReg.getSpecifier(), instrReg.getReg(),
 				progCounter.getReg(), regA.getReg()};
-	}
-
-	public abstract class MachineInstruction {
-		private AddressingMode addressingMode;
-		private RegName regName;
-
-		public MachineInstruction() {
-
-		}
-
-		public MachineInstruction(AddressingMode a) {
-			addressingMode = a;
-		}
-
-		public MachineInstruction(RegName r) {
-			regName = r;
-		}
-
-		public MachineInstruction(AddressingMode a, RegName r) {
-			addressingMode = a;
-			regName = r;
-		}
-
-		public AddressingMode getAddressingMode() {
-			return addressingMode;
-		}
-
-		protected void setAddressingMode(AddressingMode a) {
-			addressingMode = a;
-		}
-
-		protected RegName getRegName() {
-			return regName;
-		}
-
-		protected void setRegName(RegName r) {
-			regName = r;
-		}
-
-		public abstract boolean execute(Memory m);
-	}
-
-	public class StopInstruction extends MachineInstruction {
-		public StopInstruction() {
-			super();
-		}
-
-		public boolean execute(Memory m) {
-			progCounter.offset((byte) 1);
-			return true;
-		}
-	}
-
-	public class LoadInstruction extends MachineInstruction {
-		public LoadInstruction(AddressingMode a, RegName r) {
-			super(a, r);
-		}
-
-		public boolean execute(Memory m) {
-			instrReg.load(m.getData(instrReg.getReg()));
-			progCounter.offset((byte) 2);
-			if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-				if (getRegName() == RegName.A) {
-					regA.load(instrReg.getReg());
-				} else {
-					throw new UnsupportedOperationException("Index register not yet supported");
-				}
-			}
-			else if (getAddressingMode() == AddressingMode.DIRECT) {
-				if (getRegName() == RegName.A) {
-					regA.load(m.getData(instrReg.getReg()));
-				} else {
-					throw new UnsupportedOperationException("Index register not yet supported");
-				}
-			}
-			return false;
-		}
 	}
 
 }
