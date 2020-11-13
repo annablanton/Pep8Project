@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Arrays;
+
 /**
  * Represents an Arithmetic and Logic Unit used by a virtual computer.
  * @author Group 6: John Morton
@@ -244,24 +246,36 @@ public class ALU {
 	 */
 	private boolean[] toBoolArray(short x) {
 		boolean[] rtnArray = new boolean[16];
-		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
-		for (int i = 0; i < rtnArray.length; i++) {
-			if (i == 0) {
-				if (x < 0) {
-					rtnArray[i] = true;
-					x = (short) (Short.toUnsignedInt(x) - 32768);
-				} else {
-					rtnArray[i] = false;
-				}
-			} else {
-				if (x >= twoPow[i - 1]) {
-					rtnArray[i] = true;
-					x -= twoPow[i - 1];
-				} else {
-					rtnArray[i] = false;
-				}
-			}
+//		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+//		for (int i = 0; i < rtnArray.length; i++) {
+//			if (i == 0) {
+//				if (x < 0) {
+//					rtnArray[i] = true;
+//					x = (short) (Short.toUnsignedInt(x) - 32768);
+//				} else {
+//					rtnArray[i] = false;
+//				}
+//			} else {
+//				if (x >= twoPow[i - 1]) {
+//					rtnArray[i] = true;
+//					x -= twoPow[i - 1];
+//				} else {
+//					rtnArray[i] = false;
+//				}
+//			}
+//		}
+
+		String b = new Binary(x).getVal();
+		System.out.println(b);
+		for (int i = 0; i < b.length(); i++) {
+			rtnArray[rtnArray.length-1-i] = (b.charAt(b.length()-1-i)=='1') ? true : false;
 		}
+		for (int i = rtnArray.length-b.length()-1; i >= 0; i--) {
+			rtnArray[i] = rtnArray[i+1];
+		}
+		System.out.println(Arrays.toString(rtnArray));
+
+
 		return rtnArray;
 	}
 	

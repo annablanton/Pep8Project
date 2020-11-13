@@ -28,13 +28,25 @@ public class Binary extends Number {
      * @return padded binary string
      */
     private static String toPaddedBinaryString(int theVal) {
-        String b = Integer.toBinaryString(theVal);
+        System.out.println(theVal);
+        StringBuilder s = new StringBuilder();
+        while (theVal != 0 && theVal != -1) {
+            s.append((theVal % 2 == 1 || theVal % 2 == -1) ? "1" : "0");
+            theVal >>= 1;
+        }
+        if (theVal == 0) {
+            s.append("0");
+        } else {
+            s.append("1");
+        }
+        s.reverse();
+        String b = s.toString();
         if (b.length() < 8) {
 //            StringBuilder padding = new StringBuilder();
 //            for (int i = b.length(); i < 8; i++) {
 //                padding.append("0");
 //            }
-            String p = "0";
+            String p = Character.toString(b.charAt(0));
             p = p.repeat(8-b.length());
             p+=b;
             b = p;

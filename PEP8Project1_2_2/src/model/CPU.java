@@ -2,6 +2,8 @@ package model;
 
 import view.GUI;
 
+import java.util.regex.Pattern;
+
 /**
  * A class which represents a virtual CPU.
  * Used by the Machine class to execute instructions stored in memory.
@@ -379,6 +381,42 @@ public class CPU {
 	public short[] getRegisters() {
 		return new short[] {instrReg.getSpecifier(), instrReg.getReg(),
 				progCounter.getReg(), regA.getReg()};
+	}
+
+	private abstract class MachineInstruction {
+		private byte specifier;
+		private Pattern specifierPattern;
+
+		public MachineInstruction(String p) {
+			specifierPattern = Pattern.compile(p);
+		}
+
+		public Pattern getSpecifierPattern() {
+			return specifierPattern;
+		}
+
+		public abstract boolean execute();
+	}
+
+	private class StopInstruction extends MachineInstruction {
+		public StopInstruction() {
+			super("00000000");
+		}
+
+		public boolean execute() {
+			progCounter.offset((byte) 1);
+			return true;
+		}
+	}
+
+	private class LoadInstruction extends MachineInstruction {
+		public LoadInstruction() {
+			super("1100[01][01][01][01]");
+		}
+
+		public boolean execute() {
+			return false;
+		}
 	}
 
 }
