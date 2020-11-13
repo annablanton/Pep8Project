@@ -26,7 +26,7 @@ public class Machine {
 	}
 
 	public void store(short addr, byte ... d) {
-		mem.store(addr, d);
+		mem.storeInstruction(addr, d);
 		pep8View.setMemText(mem.getMemoryDump());
 	}
 

@@ -1,5 +1,7 @@
 package model;
 
+import view.GUI;
+
 import java.util.Map;
 
 public class LoadInstruction extends MachineInstruction {
@@ -7,12 +9,12 @@ public class LoadInstruction extends MachineInstruction {
         super(a, r);
     }
 
-    public boolean execute(Memory m, Map<RegName, Register> regMap) {
+    public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
+        System.out.println("li call");
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
         Register regA = regMap.get(RegName.A);
-        instrReg.load(m.getData(instrReg.getReg()));
-        progCounter.offset((byte) 2);
+        loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             if (getRegName() == RegName.A) {
                 regA.load(instrReg.getReg());

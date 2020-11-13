@@ -1,5 +1,7 @@
 package model;
 
+import view.GUI;
+
 import java.util.Map;
 
 public abstract class MachineInstruction {
@@ -39,5 +41,10 @@ public abstract class MachineInstruction {
         regName = r;
     }
 
-    public abstract boolean execute(Memory m, Map<RegName, Register> regMap);
+    protected void loadInstrOperand(Memory m, InstructionRegister ir, ProgramCounter pc) {
+        ir.load(m.getData(pc.getReg()));
+        pc.offset((byte) 2);
+    }
+
+    public abstract boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view);
 }

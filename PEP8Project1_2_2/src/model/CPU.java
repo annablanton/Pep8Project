@@ -83,8 +83,9 @@ public class CPU {
 	private int decode(Memory m) {
 		instrReg.setSpecifier(m.getInstruction(progCounter.getReg()));
 		progCounter.offset((byte) 1);
-		instrReg.load(fuseBytes(m.getInstruction(progCounter.getReg()),
-				m.getInstruction((short) (progCounter.getReg() + 1))));
+		System.out.println(progCounter.getReg());
+//		instrReg.load(fuseBytes(m.getInstruction(progCounter.getReg()),
+//				m.getInstruction((short) (progCounter.getReg() + 1))));
 		return checkInstruction(instrReg.getSpecifier());
 	}
 	
@@ -172,7 +173,8 @@ public class CPU {
 //					short fuse = fuseBytes(operSpec1, operSpec2);
 //					regA.load(fuse);
 
-                    mi.execute(m, registerMap);
+                    mi.execute(m, registerMap, myALU, pep8View);
+                    System.out.println(instrReg.getReg());
 					
 				} else if (instrType == 2) {
 					//load operand into register A
@@ -195,8 +197,8 @@ public class CPU {
 					byte sHalf1 = this.toByte(half1);
 					byte sHalf2 = this.toByte(half2);
 					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-					m.store(fuse, sHalf1);
-					m.store((short) (fuse + 1), sHalf2);
+					m.storeInstruction(fuse, sHalf1);
+					m.storeInstruction((short) (fuse + 1), sHalf2);
 					
 				} else if (instrType == 4) {
 					progCounter.offset((byte) 2);
@@ -239,7 +241,7 @@ public class CPU {
 					//Char input to location of operand
 					byte scannedInput = (byte) pep8View.getBatchInput();
 					short fuse = fuseBytes(operSpec1, operSpec2);
-					m.store(fuse, scannedInput);
+					m.storeInstruction(fuse, scannedInput);
 
 				} else if (instrType == 9) {
 					progCounter.offset((byte) 2);

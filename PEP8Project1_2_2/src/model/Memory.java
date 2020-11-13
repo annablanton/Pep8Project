@@ -21,18 +21,55 @@ public class Memory {
 	}
 
 	public short getData(short addr) {
+		System.out.println("getData call" + addr);
 		return fuseBytes(mem[Short.toUnsignedInt(addr)], mem[Short.toUnsignedInt(addr)+1]);
 	}
 
-	public void store(short addr, byte ... d) {
+	public void storeInstruction(short addr, byte ... d) {
 		Objects.requireNonNull(d, "byte array must not be null");
 		if (d.length > (Short.MAX_VALUE+1)*2) {
 			throw new IllegalArgumentException("Byte array too large");
 		}
 		int uaddr;
 		for (int i = 0; i < d.length; i++) {
-			uaddr = Short.toUnsignedInt(addr) + i;
+			uaddr = (Short.toUnsignedInt(addr) + i) % 65536;
 			mem[uaddr] = d[i];
+		}
+	}
+
+	/*
+	 * This is an alias of the storeInstruction method.
+	 * Since instructions and characters are both bytes, the operations performed are identical, but
+	 * explicitly naming this instruction storeCharacter is clearer when calling it for character input.
+	 */
+	public void storeCharacter(short addr, byte ... d) {
+		storeInstruction(addr, d);
+	}
+
+	public char getCharacter(short addr) {
+		return (char) mem[Short.toUnsignedInt(addr)];
+	}
+
+	public void storeData(short addr, short ... d) {
+		Objects.requireNonNull(d, "short array must not be null");
+		if (d.length > (Short.MAX_VALUE+1)) {
+			throw new IllegalArgumentException("Short array too large");
+		}
+
+		for (int i = 0; i < d.length; i++) {
+			int uaddr1 = (Short.toUnsignedInt(addr)+2*i) % 65536;
+			int uaddr2 = (uaddr1 + 1) % 65536;
+
+			boolean[] wholeBool = this.toBoolArray(d[i]);
+			boolean[] half1 = new boolean[8];
+			boolean[] half2 = new boolean[8];
+			System.arraycopy(wholeBool, 0, half1, 0, half1.length);
+			System.arraycopy(wholeBool, 8, half2, 0, half2.length);
+			byte sHalf1 = this.toByte(half1);
+			byte sHalf2 = this.toByte(half2);
+
+			mem[uaddr1] = sHalf1;
+			mem[uaddr2] = sHalf2;
 		}
 	}
 
@@ -90,6 +127,23 @@ public class Memory {
 			}
 		}
 		return rtnShort;
+	}
+
+	private byte toByte(boolean[] boolArray) {
+		byte rtnByte = 0;
+		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
+		for (int i = 0; i < boolArray.length; i++) {
+			if (i == 0) {
+				if (boolArray[i]) {
+					rtnByte = (byte) -128;
+				}
+			} else {
+				if (boolArray[i]) {
+					rtnByte += twoPow[i - 1];
+				}
+			}
+		}
+		return rtnByte;
 	}
 
 }
