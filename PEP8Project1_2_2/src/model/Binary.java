@@ -28,7 +28,6 @@ public class Binary extends Number {
      * @return padded binary string
      */
     private static String toPaddedBinaryString(int theVal) {
-        System.out.println(theVal);
         StringBuilder s = new StringBuilder();
         while (theVal != 0 && theVal != -1) {
             s.append((theVal % 2 == 1 || theVal % 2 == -1) ? "1" : "0");

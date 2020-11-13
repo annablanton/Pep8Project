@@ -266,14 +266,12 @@ public class ALU {
 //		}
 
 		String b = new Binary(x).getVal();
-		System.out.println(b);
 		for (int i = 0; i < b.length(); i++) {
-			rtnArray[rtnArray.length-1-i] = (b.charAt(b.length()-1-i)=='1') ? true : false;
+			rtnArray[rtnArray.length-1-i] = b.charAt(b.length() - 1 - i) == '1';
 		}
 		for (int i = rtnArray.length-b.length()-1; i >= 0; i--) {
 			rtnArray[i] = rtnArray[i+1];
 		}
-		System.out.println(Arrays.toString(rtnArray));
 
 
 		return rtnArray;

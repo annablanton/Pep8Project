@@ -28,14 +28,14 @@ public class MemoryTest {
         byte[] temp = new byte[Short.MAX_VALUE*2+1];
         Arrays.fill(temp, (byte) 0);
         for (int i = 0; i < temp.length; i++) {
-            assertEquals(temp[i], m.getDataAt((short) i));
+            assertEquals(temp[i], m.getInstruction((short) i));
         }
     }
 
     @Test
     public void testStoreOneByte() {
         m.store((short) 0xAB23, (byte) 0xF2);
-        assertEquals(242, Byte.toUnsignedInt(m.getDataAt((short) 43811)));
+        assertEquals(242, Byte.toUnsignedInt(m.getInstruction((short) 43811)));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class MemoryTest {
         m.store((short) 0xAB23, arr);
 
         for (int i = 0; i < arr.length; i++) {
-            assertEquals(arr[i], m.getDataAt((short) ((short) (0xAB23) + (short) i)));
+            assertEquals(arr[i], m.getInstruction((short) ((short) (0xAB23) + (short) i)));
         }
     }
 
@@ -57,5 +57,13 @@ public class MemoryTest {
     public void testStoreArrayTooLarge() {
         byte[] d = new byte[65537];
         m.store((short) 0x1234, d);
+    }
+
+    @Test
+    public void testGetData() {
+        byte[] arr = {(byte) 0x12, (byte) 0x34};
+        m.store((short) 0xAB23, arr);
+
+        assertEquals((short) 0x1234, m.getData((short) 0xAB23));
     }
 }

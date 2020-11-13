@@ -71,10 +71,10 @@ public class CPU {
 	 * @return Integer representing the instruction stored in memory.
 	 */
 	private int decode(Memory m) {
-		instrReg.setSpecifier(m.getDataAt(progCounter.getReg()));
+		instrReg.setSpecifier(m.getInstruction(progCounter.getReg()));
 		progCounter.offset((byte) 1);
-		instrReg.load(fuseBytes(m.getDataAt(progCounter.getReg()),
-				m.getDataAt((short) (progCounter.getReg() + 1))));
+		instrReg.load(fuseBytes(m.getInstruction(progCounter.getReg()),
+				m.getInstruction((short) (progCounter.getReg() + 1))));
 		return checkInstruction(instrReg.getSpecifier());
 	}
 	
@@ -166,8 +166,8 @@ public class CPU {
 					//load operand into register A
 					//direct addressing mode
 					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-					byte retrieved = m.getDataAt(fuse);
-					byte retrievedN = m.getDataAt((short) (fuse + 1));
+					byte retrieved = m.getInstruction(fuse);
+					byte retrievedN = m.getInstruction((short) (fuse + 1));
 					short retr = fuseBytes(retrieved, retrievedN);
 					regA.load(retr);
 						
@@ -196,8 +196,8 @@ public class CPU {
 					//direct addressing mode
 					short address = this.calculateDirectAddress(operSpec1, operSpec2);
 			        short addressR = (short) (address + 1);
-			        byte addressVal = m.getDataAt(address);
-			        byte addressRVal = m.getDataAt(addressR);
+			        byte addressVal = m.getInstruction(address);
+			        byte addressRVal = m.getInstruction(addressR);
 			        short fuse = this.fuseBytes(addressVal, addressRVal);
 					regA.load(myALU.add(regA, fuse));
 						
@@ -212,8 +212,8 @@ public class CPU {
 					//direct addressing mode
 					short address = this.calculateDirectAddress(operSpec1, operSpec2);
 			        short addressR = (short) (address + 1);
-			        byte addressVal = m.getDataAt(address);
-			        byte addressRVal = m.getDataAt(addressR);
+			        byte addressVal = m.getInstruction(address);
+			        byte addressRVal = m.getInstruction(addressR);
 			        short fuse = this.fuseBytes(addressVal, addressRVal);
 					regA.load(myALU.subtract(regA, fuse));
 					
@@ -235,7 +235,7 @@ public class CPU {
 					//Char output from operand
 					//direct addressing mode
 					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-					char out = (char) m.getDataAt(fuse);
+					char out = (char) m.getInstruction(fuse);
 					pep8View.output(out);
 				}
 			} catch (Exception E) {
@@ -319,8 +319,8 @@ public class CPU {
 		boolean[] oper1Array = this.toBoolArray(b1);
 		boolean[] oper2Array = this.toBoolArray(b2);
 		boolean[] fuseArray = new boolean[16];
-		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
-		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
+		System.arraycopy(oper1Array, 8, fuseArray, 0, 8);
+		System.arraycopy(oper2Array, 8, fuseArray, 8, 8);
 		return this.toShort(fuseArray);
 	}
 	
@@ -383,38 +383,79 @@ public class CPU {
 				progCounter.getReg(), regA.getReg()};
 	}
 
-	private abstract class MachineInstruction {
-		private byte specifier;
-		private Pattern specifierPattern;
+	public abstract class MachineInstruction {
+		private AddressingMode addressingMode;
+		private RegName regName;
 
-		public MachineInstruction(String p) {
-			specifierPattern = Pattern.compile(p);
+		public MachineInstruction() {
+
 		}
 
-		public Pattern getSpecifierPattern() {
-			return specifierPattern;
+		public MachineInstruction(AddressingMode a) {
+			addressingMode = a;
 		}
 
-		public abstract boolean execute();
+		public MachineInstruction(RegName r) {
+			regName = r;
+		}
+
+		public MachineInstruction(AddressingMode a, RegName r) {
+			addressingMode = a;
+			regName = r;
+		}
+
+		public AddressingMode getAddressingMode() {
+			return addressingMode;
+		}
+
+		protected void setAddressingMode(AddressingMode a) {
+			addressingMode = a;
+		}
+
+		protected RegName getRegName() {
+			return regName;
+		}
+
+		protected void setRegName(RegName r) {
+			regName = r;
+		}
+
+		public abstract boolean execute(Memory m);
 	}
 
-	private class StopInstruction extends MachineInstruction {
+	public class StopInstruction extends MachineInstruction {
 		public StopInstruction() {
-			super("00000000");
+			super();
 		}
 
-		public boolean execute() {
+		public boolean execute(Memory m) {
 			progCounter.offset((byte) 1);
 			return true;
 		}
 	}
 
-	private class LoadInstruction extends MachineInstruction {
-		public LoadInstruction() {
-			super("1100[01][01][01][01]");
+	public class LoadInstruction extends MachineInstruction {
+		public LoadInstruction(AddressingMode a, RegName r) {
+			super(a, r);
 		}
 
-		public boolean execute() {
+		public boolean execute(Memory m) {
+			instrReg.load(m.getData(instrReg.getReg()));
+			progCounter.offset((byte) 2);
+			if (getAddressingMode() == AddressingMode.IMMEDIATE) {
+				if (getRegName() == RegName.A) {
+					regA.load(instrReg.getReg());
+				} else {
+					throw new UnsupportedOperationException("Index register not yet supported");
+				}
+			}
+			else if (getAddressingMode() == AddressingMode.DIRECT) {
+				if (getRegName() == RegName.A) {
+					regA.load(m.getData(instrReg.getReg()));
+				} else {
+					throw new UnsupportedOperationException("Index register not yet supported");
+				}
+			}
 			return false;
 		}
 	}
