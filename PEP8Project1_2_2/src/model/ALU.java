@@ -159,7 +159,7 @@ public class ALU {
 		return (short) (~x+1);
 	}
 
-	public short arithshiftl(Register r) {
+	public short arithShiftLeft(Register r) {
 		resetFlags();
 		short x = r.getReg();
 		boolean[] boolArr1 = toBoolArray(x);
@@ -177,6 +177,46 @@ public class ALU {
 		}
 
 		return x;
+	}
+
+	public short arithShiftRight(Register r) {
+		resetFlags();
+		short x = r.getReg();
+		boolean[] boolArr = toBoolArray(x);
+		cFlag.setFlag(boolArr[boolArr.length-1]);
+
+		x >>= 1;
+		if (x < 0) {
+			nFlag.setFlag(true);
+		} else if (x == 0) {
+			zFlag.setFlag(true);
+		}
+
+		return x;
+	}
+
+	public short rotateLeft(Register r) {
+		short x = r.getReg();
+		boolean carryBit = cFlag.isSet();
+		resetFlags();
+		boolean[] boolArr1 = toBoolArray(x);
+		cFlag.setFlag(boolArr1[0]);
+		x <<= 1;
+		boolean[] boolArr2 = toBoolArray(x);
+		boolArr2[boolArr2.length-1]=carryBit;
+		return toShort(boolArr2);
+	}
+
+	public short rotateRight(Register r) {
+		short x = r.getReg();
+		boolean carryBit = cFlag.isSet();
+		resetFlags();
+		boolean[] boolArr1 = toBoolArray(x);
+		cFlag.setFlag(boolArr1[boolArr1.length-1]);
+		x >>= 1;
+		boolean[] boolArr2 = toBoolArray(x);
+		boolArr2[0] = carryBit;
+		return toShort(boolArr2);
 	}
 
 
