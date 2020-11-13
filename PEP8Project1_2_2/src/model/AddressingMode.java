@@ -1,5 +1,5 @@
 package model;
 
 public enum AddressingMode {
-    IMMEDIATE, DIRECT
+    IMMEDIATE, DIRECT, INDIRECT
 }

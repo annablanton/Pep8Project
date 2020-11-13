@@ -17,7 +17,20 @@ public class StoreInstruction extends MachineInstruction {
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             throw new UnsupportedOperationException("Illegal operation (cannot use store instruction in immediate mode");
         } else if (getAddressingMode() == AddressingMode.DIRECT) {
-            m.storeData(instrReg.getReg(), regA.getReg());
+            if (getRegName() == RegName.A) {
+                m.storeData(instrReg.getReg(), regA.getReg());
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
+        } else if (getAddressingMode() == AddressingMode.INDIRECT) {
+            short addr1 = instrReg.getReg();
+            short addr2 = m.getData(addr1);
+            if (getRegName() == RegName.A) {
+                m.storeData(addr2, regA.getReg());
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
+
         }
 
 

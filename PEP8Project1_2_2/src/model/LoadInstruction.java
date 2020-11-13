@@ -28,6 +28,14 @@ public class LoadInstruction extends MachineInstruction {
             } else {
                 throw new UnsupportedOperationException("Index register not yet supported");
             }
+        } else if (getAddressingMode() == AddressingMode.INDIRECT) {
+            short addr1 = instrReg.getReg();
+            short addr2 = m.getData(addr1);
+            if (getRegName() == RegName.A) {
+                regA.load(m.getData(addr2));
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
         }
         return false;
     }

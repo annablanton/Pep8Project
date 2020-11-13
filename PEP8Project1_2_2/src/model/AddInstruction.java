@@ -17,9 +17,26 @@ public class AddInstruction extends MachineInstruction {
 
         loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-            regA.load(alu.add(regA, instrReg.getReg()));
+            if (getRegName() == RegName.A) {
+                regA.load(alu.add(regA, instrReg.getReg()));
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
         } else if (getAddressingMode() == AddressingMode.DIRECT) {
-            regA.load(alu.add(regA, m.getData(instrReg.getReg())));
+            if (getRegName() == RegName.A) {
+                regA.load(alu.add(regA, m.getData(instrReg.getReg())));
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
+        } else if (getAddressingMode() == AddressingMode.INDIRECT) {
+            short addr1 = instrReg.getReg();
+            short addr2 = m.getData(addr1);
+            short data = m.getData(addr2);
+            if (getRegName() == RegName.A) {
+                regA.load(alu.add(regA, data));
+            } else {
+                throw new UnsupportedOperationException("Index register not yet supported");
+            }
         }
         return false;
     }

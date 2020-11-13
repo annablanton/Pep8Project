@@ -5,8 +5,8 @@ import view.GUI;
 import java.util.Map;
 
 public class CharInputInstruction extends MachineInstruction {
-    public CharInputInstruction(AddressingMode a, RegName r) {
-        super(a, r);
+    public CharInputInstruction(AddressingMode a) {
+        super(a);
     }
 
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
@@ -19,6 +19,10 @@ public class CharInputInstruction extends MachineInstruction {
                     "instruction");
         } else if (getAddressingMode() == AddressingMode.DIRECT) {
             m.storeCharacter(instrReg.getReg(), scannedInput);
+        } else if (getAddressingMode() == AddressingMode.INDIRECT) {
+            short addr1 = instrReg.getReg();
+            short addr2 = m.getData(addr1);
+            m.storeCharacter(addr2, scannedInput);
         }
         return false;
     }
