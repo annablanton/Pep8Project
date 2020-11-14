@@ -61,7 +61,7 @@ public class ALU {
 					} else {
 						booleanResult[i] = true;
 						cFlag.setFlag(false);
-						view.setCbox(true);
+						view.setCbox(false);
 					}
 				} else {
 					booleanResult[i] = cFlag.isSet();
