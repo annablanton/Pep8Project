@@ -13,10 +13,10 @@ public class CharOutputInstruction extends MachineInstruction {
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
         loadInstrOperand(m, instrReg, progCounter);
-        System.out.println(instrReg.getReg());
+        //System.out.println(instrReg.getReg());
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-            System.out.println(instrReg.getByte());
-            System.out.println((char) ((byte) instrReg.getByte()));
+            //System.out.println(instrReg.getByte());
+            //System.out.println((char) ((byte) instrReg.getByte()));
             char out = (char) instrReg.getByte();
             view.output(out);
         } else if (getAddressingMode() == AddressingMode.DIRECT) {

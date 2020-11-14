@@ -157,7 +157,9 @@ public class ALU {
 	public short not(Register r) {
 		resetFlags();
 		short x = r.getReg();
-		x=(short) ~x;
+		System.out.println("x " + x);
+		x= (short) ((~x)&0x0000FFFF);
+		System.out.println("x " + x);
 		if (x < 0) {
 			nFlag.setFlag(true);
 			view.setNbox(true);
@@ -171,7 +173,8 @@ public class ALU {
 	public short negate(Register r) {
 		resetFlags();
 		short x = r.getReg();
-		x = (short) (~x+1);
+		x = (short) (~x);
+		x+=1;
 		if (x < 0) {
 			nFlag.setFlag(true);
 			view.setNbox(true);

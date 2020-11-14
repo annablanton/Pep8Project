@@ -7,8 +7,7 @@ import view.GUI;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class InstructionTest {
     private static final short ADDR_1 = (short) 0xA235;
@@ -379,5 +378,151 @@ public class InstructionTest {
         mi2.execute(m, rm, alu, gui);
         mi.execute(m, rm, alu, gui);
         assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testCompareInstructionImmediateEqual() {
+        m.storeData((short) 0x0001, REG_VAL);
+        mi = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertTrue(alu.zFlagIsSet());
+        assertFalse(alu.nFlagIsSet());
+        assertFalse(alu.vFlagIsSet());
+        assertTrue(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testCompareInstructionImmediateLessThan() {
+        m.storeData((short) 0x0001, (short) (REG_VAL + 1));
+        mi = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertFalse(alu.zFlagIsSet());
+        assertTrue(alu.nFlagIsSet());
+        assertFalse(alu.vFlagIsSet());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testCompareInstructionImmediateGreaterThan() {
+        m.storeData((short) 0x0001, (short) (REG_VAL - 1));
+        mi = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertFalse(alu.zFlagIsSet());
+        assertFalse(alu.nFlagIsSet());
+        assertFalse(alu.vFlagIsSet());
+        assertTrue(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testCompareInstructionImmediateSignedOverflow() {
+        m.storeData((short) 0x0001, (short) (0x9AFF));
+        mi = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertFalse(alu.zFlagIsSet());
+        assertTrue(alu.nFlagIsSet());
+        assertTrue(alu.vFlagIsSet());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testCompareInstructionDirect() {
+        mi = new CompareInstruction(AddressingMode.DIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertFalse(alu.zFlagIsSet());
+        assertTrue(alu.nFlagIsSet());
+        assertFalse(alu.vFlagIsSet());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testCompareInstructionIndirect() {
+        mi = new CompareInstruction(AddressingMode.DIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertFalse(alu.zFlagIsSet());
+        assertTrue(alu.nFlagIsSet());
+        assertFalse(alu.vFlagIsSet());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testNegInstruction() {
+        mi = new NegInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0xE501, regA.getReg());
+    }
+
+    @Test
+    public void testNotInstruction() {
+        mi = new NotInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0xE500, regA.getReg());
+    }
+
+    @Test
+    public void testOrInstructionImmediate() {
+        mi = new OrInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0xBAFF, regA.getReg());
+    }
+
+    @Test
+    public void testOrInstructionDirect() {
+        mi = new OrInstruction(AddressingMode.DIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x3BFF, regA.getReg());
+    }
+
+    @Test
+    public void testOrInstructionIndirect() {
+        mi = new OrInstruction(AddressingMode.INDIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x5EFF, regA.getReg());
+    }
+
+    @Test
+    public void testROLInstructionC0() {
+        mi = new ROLInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x35FE, regA.getReg());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testROLInstructionC1() {
+        mi = new ROLInstruction(RegName.A);
+        CompareInstruction mi2 = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        m.storeData((short) 0x0001, (short) 0x0001);
+        mi2.execute(m, rm, alu, gui);
+        assertTrue(alu.cFlagIsSet());
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x35FF, regA.getReg());
+        assertFalse(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testRORInstructionC0() {
+        mi = new RORInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0D7F, regA.getReg());
+        assertTrue(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testRORInstructionC1() {
+        mi = new RORInstruction(RegName.A);
+        m.storeData((short) 0x0001, (short) 0x0001);
+        CompareInstruction mi2 = new CompareInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        assertTrue(alu.cFlagIsSet());
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x8D7F, regA.getReg());
+        assertTrue(alu.cFlagIsSet());
+    }
+
+    @Test
+    public void testUnconditionalBranchInstructionImmediate() {
+        mi = new UnconditionalBranchInstruction(AddressingMode.IMMEDIATE);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
     }
 }

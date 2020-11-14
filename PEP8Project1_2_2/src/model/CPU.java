@@ -122,7 +122,7 @@ public class CPU {
 			} else {
 				rn = RegName.INDEX;
 			}
-			System.out.println(binString.substring(5));
+			//System.out.println(binString.substring(5));
 			return switch (binString.substring(5)) {
 				case "000" -> new SubtractInstruction(AddressingMode.IMMEDIATE, rn);
 				case "001" -> new SubtractInstruction(AddressingMode.DIRECT, rn);
@@ -281,7 +281,7 @@ public class CPU {
 					}
 				}
 			}
-			System.out.println(rtnArray.length);
+			//System.out.println(rtnArray.length);
 		return rtnArray;
 	}
 	

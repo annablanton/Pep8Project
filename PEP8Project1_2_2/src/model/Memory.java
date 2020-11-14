@@ -23,7 +23,7 @@ public class Memory {
 	public byte getByte(short addr) {return getInstruction(addr);}
 
 	public short getData(short addr) {
-		System.out.println("getData call" + addr);
+//		System.out.println("getData call" + addr);
 		return fuseBytes(mem[Short.toUnsignedInt(addr)], mem[Short.toUnsignedInt(addr)+1]);
 	}
 

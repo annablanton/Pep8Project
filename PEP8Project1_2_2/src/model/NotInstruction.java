@@ -5,7 +5,7 @@ import view.GUI;
 import java.util.Map;
 
 public class NotInstruction extends MachineInstruction {
-    public NotInstruction(RegName r) {super("0001100");}
+    public NotInstruction(RegName r) {super("0001100", r);}
 
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
         Register regA = regMap.get(RegName.A);

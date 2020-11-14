@@ -17,10 +17,10 @@ public class BRCInstruction extends MachineInstruction {
         loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             if (alu.cFlagIsSet()) {
-                System.out.println("true");
+                //System.out.println("true");
                 progCounter.load(instrReg.getReg());
             }
-            System.out.println("false");
+            //System.out.println("false");
         } else {
             throw new UnsupportedOperationException("Unsupported addressing mode");
         }

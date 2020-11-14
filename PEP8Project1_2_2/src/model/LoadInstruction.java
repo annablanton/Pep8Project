@@ -10,7 +10,6 @@ public class LoadInstruction extends MachineInstruction {
     }
 
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
-        System.out.println("li call");
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
         Register regA = regMap.get(RegName.A);

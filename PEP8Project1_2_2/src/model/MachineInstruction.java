@@ -33,16 +33,8 @@ public abstract class MachineInstruction {
         return addressingMode;
     }
 
-    protected void setAddressingMode(AddressingMode a) {
-        addressingMode = a;
-    }
-
     protected RegName getRegName() {
         return regName;
-    }
-
-    protected void setRegName(RegName r) {
-        regName = r;
     }
 
     protected void loadInstrOperand(Memory m, InstructionRegister ir, ProgramCounter pc) {
