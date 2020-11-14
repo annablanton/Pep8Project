@@ -14,7 +14,7 @@ public class InstructionTest {
     private static final short ADDR_1 = (short) 0xA235;
     private static final short ADDR_2 = (short) 0X2134;
     private static final short DATA = (short) 0X5678;
-    private static final short REG_VAL = (short) 0xAAFF;
+    private static final short REG_VAL = (short) 0x1AFF;
 
     MachineInstruction mi;
     Memory m;
@@ -41,6 +41,7 @@ public class InstructionTest {
                 Map.entry(RegName.A, regA)
         );
         m.storeData((short) 0x0001, ADDR_1);
+        m.storeData((short) 0x0003, ADDR_1);
         m.storeData(ADDR_1, ADDR_2);
         m.storeData(ADDR_2, DATA);
     }
@@ -198,5 +199,185 @@ public class InstructionTest {
         mi = new CharOutputInstruction(AddressingMode.INDIRECT);
         mi.execute(m, rm, alu, gui);
         assertEquals("V", gui.getOutput());
+    }
+
+    @Test
+    public void testAndInstructionImmediate() {
+        mi = new AndInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0235, regA.getReg());
+    }
+
+    @Test
+    public void testAndInstructionDirect() {
+        mi = new AndInstruction(AddressingMode.DIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0034, regA.getReg());
+    }
+
+    @Test
+    public void testAndInstructionIndirect() {
+        mi = new AndInstruction(AddressingMode.INDIRECT, RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x1278, regA.getReg());
+    }
+
+    @Test
+    public void testASLInstruction() {
+        mi = new ASLInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x35FE, regA.getReg());
+    }
+
+    @Test
+    public void testASRInstruction() {
+        mi = new ASRInstruction(RegName.A);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0D7F, regA.getReg());
+    }
+
+    @Test
+    public void testBRCInstructionImmediateC1() {
+        mi = new BRCInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        m.storeData((short) 0x0001, (short) 0xFFFF);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRCInstructionImmediateC0() {
+        mi = new BRCInstruction(AddressingMode.IMMEDIATE);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0003, pc.getReg());
+    }
+
+    @Test
+    public void testBREQInstructionImmediateZ1() {
+        m.storeData((short) 0x0001, REG_VAL);
+        mi = new BREQInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBREQInstructionImmediateZ0() {
+        mi = new BREQInstruction(AddressingMode.IMMEDIATE);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0003, pc.getReg());
+    }
+
+    @Test
+    public void testBRGEInstructionImmediateN0() {
+        mi = new BRGEInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRGEInstructionImmediateN1() {
+        mi = new BRGEInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testBRGTInstructionImmediateN0Z0() {
+        mi = new BRGTInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRGTInstructionImmediateN1() {
+        mi = new BRGTInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testBRLEInstructionImmediateN1() {
+        mi = new BRLEInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRLEInstructionImmediateN0Z0() {
+        mi = new BRLEInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testBRLTInstructionImmediateN1() {
+        mi = new BRLTInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRLTInstructionImmediateN0() {
+        mi = new BRLTInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testBRNEInstructionImmediateZ0() {
+        mi = new BRNEInstruction(AddressingMode.IMMEDIATE);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRNEInstructionImmediateZ1() {
+        mi = new BRNEInstruction(AddressingMode.IMMEDIATE);
+        m.storeData((short) 0x0001, REG_VAL);
+        SubtractInstruction mi2 = new SubtractInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
+    }
+
+    @Test
+    public void testBRVInstructionImmediateV1() {
+        m.storeData((short) 0x0001, (short) 0x7FFF);
+        mi = new BRVInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals(ADDR_1, pc.getReg());
+    }
+
+    @Test
+    public void testBRVInstructionImmediateV0() {
+        m.storeData((short) 0x0001, (short) 0x0001);
+        mi = new BRVInstruction(AddressingMode.IMMEDIATE);
+        AddInstruction mi2 = new AddInstruction(AddressingMode.IMMEDIATE, RegName.A);
+        mi2.execute(m, rm, alu, gui);
+        mi.execute(m, rm, alu, gui);
+        assertEquals((short) 0x0005, pc.getReg());
     }
 }

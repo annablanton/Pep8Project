@@ -48,7 +48,7 @@ public class ALU {
 			for (int i = boolArray1.length - 1; i >= 0; i--) {
 				val1 = boolArray1[i];
 				val2 = boolArray2[i];
-				if (val1 & val2) {
+				if (val1 && val2) {
 					booleanResult[i] = cFlag.isSet();
 					//cFlag should be true at the end if the last bit had a carry
 					cFlag.setFlag(true);
@@ -69,7 +69,7 @@ public class ALU {
 					view.setCbox(false);
 				}
 			}
-			if ((boolArray1[boolArray1.length-1] == boolArray2[boolArray2.length-1]) && (booleanResult[booleanResult.length-1]!=boolArray1[boolArray1.length-1])) {
+			if ((boolArray1[0] == boolArray2[0]) && (booleanResult[0]!=boolArray1[0])) {
 				vFlag.setFlag(true);
 				view.setVbox(true);
 			}
