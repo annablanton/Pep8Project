@@ -436,7 +436,7 @@ public class InstructionTest {
 
     @Test
     public void testCompareInstructionIndirect() {
-        mi = new CompareInstruction(AddressingMode.DIRECT, RegName.A);
+        mi = new CompareInstruction(AddressingMode.INDIRECT, RegName.A);
         mi.execute(m, rm, alu, gui);
         assertFalse(alu.zFlagIsSet());
         assertTrue(alu.nFlagIsSet());
