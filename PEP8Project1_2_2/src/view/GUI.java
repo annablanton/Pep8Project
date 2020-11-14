@@ -163,6 +163,10 @@ public class GUI extends JFrame implements ActionListener {
 	/**Setting screensize to calculate size of application**/
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	/**Tells which character of BatchIO to send**/
+	private JCheckBox Nbox;
+	private JCheckBox Zbox;
+	private JCheckBox Vbox;
+	private JCheckBox Cbox;
 	private int batchIndex = -1;
 	/**
      * Main method to run CUI methods.
@@ -333,8 +337,9 @@ public class GUI extends JFrame implements ActionListener {
 		Nmark.setFont(myFont);	
 		Nmark.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
 		CpupanelTop.add(Nmark);
-		JCheckBox Nbox = new JCheckBox();
+		Nbox = new JCheckBox();
 		Nbox.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
+		Nbox.setEnabled(false);
 		CpupanelTop.add(Nbox);
 			
 		/*adding check box with labels Z.*/
@@ -342,8 +347,9 @@ public class GUI extends JFrame implements ActionListener {
 		Zmark.setFont(myFont);	
 		Zmark.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
 		CpupanelTop.add(Zmark);	
-		JCheckBox Zbox = new JCheckBox();
+		Zbox = new JCheckBox();
 		Zbox.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
+		Zbox.setEnabled(false);
 		CpupanelTop.add(Zbox);
 			
 		/*adding check box with labels V.*/
@@ -351,8 +357,9 @@ public class GUI extends JFrame implements ActionListener {
 		Vmark.setFont(myFont);	
 		Vmark.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
 		CpupanelTop.add(Vmark);	
-		JCheckBox Vbox = new JCheckBox();
+		Vbox = new JCheckBox();
 		Vbox.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
+		Vbox.setEnabled(false);
 		CpupanelTop.add(Vbox);
 			
 		/*adding check box with labels C.*/
@@ -360,8 +367,9 @@ public class GUI extends JFrame implements ActionListener {
 		Cmark.setFont(myFont);	
 		Cmark.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
 		CpupanelTop.add(Cmark);	
-		JCheckBox Cbox = new JCheckBox();
+		Cbox = new JCheckBox();
 		Cbox.setSize(new Dimension(screenSize.width*1/112,screenSize.height*1/112));
+		Cbox.setEnabled(false);
 		CpupanelTop.add(Cbox);
 		CpuPanel.add(CpupanelTop,  BorderLayout.NORTH);
 	}
@@ -715,12 +723,41 @@ public class GUI extends JFrame implements ActionListener {
 		return (BatchIO.getText()).charAt(batchIndex);
 	}
 
+	/*
+	*setBatchInput function for testing purposes only
+	 */
+	public void setBatchInput(String s) {
+		BatchIO.setText(s);
+	}
+
+	public void setNbox(boolean b) {
+		Nbox.setSelected(b);
+	}
+
+	public void setZbox(boolean b) {
+		Zbox.setSelected(b);
+	}
+
+	public void setVbox(boolean b) {
+		Vbox.setSelected(b);
+	}
+
+	public void setCbox(boolean b) {
+		Cbox.setSelected(b);
+	}
+
 	/**
 	 * Adds the specified character to the output text area.
 	 * @param c
 	 */
 	public void output(char c) {
 		Outputtext.setText(Outputtext.getText() + c);
+	}
+	/*
+	* getOutput method for testing purposes only
+	 */
+	public String getOutput() {
+		return Outputtext.getText();
 	}
 
 }

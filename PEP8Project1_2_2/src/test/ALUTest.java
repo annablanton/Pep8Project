@@ -3,7 +3,9 @@ package test;
 import model.ALU;
 import model.Register;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import view.GUI;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,10 +18,12 @@ import static org.junit.Assert.assertEquals;
 public class ALUTest {
     ALU alu;
     Register r;
+    GUI view;
 
     @Before
     public void setUp() {
-        alu = new ALU();
+        view = new GUI();
+        alu = new ALU(view);
         r = new Register();
     }
 

@@ -16,6 +16,7 @@ public class SubtractInstruction extends MachineInstruction {
 
         loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
+            System.out.println("a");
             if (getRegName() == RegName.A) {
                 regA.load(alu.subtract(regA, instrReg.getReg()));
             } else {

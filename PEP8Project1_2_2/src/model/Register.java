@@ -21,6 +21,10 @@ public class Register {
 	}
 
 	public byte getByte() {
-		return (byte) ((getReg() & 0xFF00) >> 8);
+		return (byte) ((getReg() & 0x00FF));
+	}
+
+	public void loadByte(byte b) {
+		reg = (short) ((reg & 0xFF00) + b);
 	}
 }

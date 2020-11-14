@@ -16,14 +16,14 @@ public class LoadByteInstruction extends MachineInstruction {
         loadInstrOperand(m, instrReg, progCounter);
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             if (getRegName() == RegName.A) {
-                regA.load(instrReg.getByte());
+                regA.loadByte(instrReg.getByte());
             } else {
                 throw new UnsupportedOperationException("Index register not yet supported");
             }
         }
         else if (getAddressingMode() == AddressingMode.DIRECT) {
             if (getRegName() == RegName.A) {
-                regA.load(m.getByte(instrReg.getReg()));
+                regA.loadByte(m.getByte(instrReg.getReg()));
             } else {
                 throw new UnsupportedOperationException("Index register not yet supported");
             }
@@ -31,7 +31,7 @@ public class LoadByteInstruction extends MachineInstruction {
             short addr1 = instrReg.getReg();
             short addr2 = m.getData(addr1);
             if (getRegName() == RegName.A) {
-                regA.load(m.getByte(addr2));
+                regA.loadByte(m.getByte(addr2));
             } else {
                 throw new UnsupportedOperationException("Index register not yet supported");
             }

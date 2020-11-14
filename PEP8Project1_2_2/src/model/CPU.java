@@ -52,8 +52,8 @@ public class CPU {
 		instrReg = new InstructionRegister();
 		progCounter = new ProgramCounter();
 		regA = new Register();
-		myALU = new ALU();
 		pep8View = view;
+		myALU = new ALU(pep8View);
 		registerMap = Map.ofEntries(
                 Map.entry(RegName.A, regA),
                 Map.entry(RegName.PC, progCounter),
@@ -122,7 +122,7 @@ public class CPU {
 			} else {
 				rn = RegName.INDEX;
 			}
-
+			System.out.println(binString.substring(5));
 			return switch (binString.substring(5)) {
 				case "000" -> new SubtractInstruction(AddressingMode.IMMEDIATE, rn);
 				case "001" -> new SubtractInstruction(AddressingMode.DIRECT, rn);
@@ -161,68 +161,6 @@ public class CPU {
 			throw new UnsupportedOperationException("Unknown instruction");
 		}
 	}
-	
-	/**
-	 * Helper method for decode method, uses byte data to determine the instruction.
-	 * @param byte1 The first half of our instruction specifier.
-	 * @return Returns an integer indicating the instruction.
-	 */
-//	private int checkInstruction(byte byte1) {
-//		int rtnVal = 99;
-//		if (byte1 == 0) {
-//			//stop execution
-//			isFirst = true;
-//			rtnVal = 0;
-//		} else if (byte1 < 0) {
-//			if (byte1 == (byte) -64) {
-//				//load operand into register A
-//				//immediate addressing mode
-//				rtnVal = 1;
-//			} else if (byte1 == (byte) -63) {
-//				//load operand into register A
-//				//direct addressing mode
-//				rtnVal = 2;
-//			} else if (byte1 == (byte) -31) {
-//				//store the A register to the location in operand
-//				rtnVal = 3;
-//			} else if (byte1 == (byte) -128) {
-//				//Subtract the operand to the A register
-//				//immediate addressing mode
-//				rtnVal = 6;
-//			} else if (byte1 == (byte) -127) {
-//				//Subtract the operand to the A register
-//				//direct addressing mode
-//				rtnVal = 7;
-//			}
-//		} else {
-//			if (byte1 == (byte) 112) {
-//				//Add the operand to the A register
-//				//immediate addressing mode
-//				rtnVal = 4;
-//			} else if (byte1 == (byte) 113) {
-//				//Add the operand to the A register
-//				//direct addressing mode
-//				rtnVal = 5;
-//			} else if (byte1 == (byte) 73) {
-//				//Char input to location of operand
-//				rtnVal = 8;
-//			} else if (byte1 == (byte) 80) {
-//				//Char output from operand
-//				//immediate addressing mode
-//				rtnVal = 9;
-//			} else if (byte1 == (byte) 81) {
-//				//Char output from operand
-//				//direct addressing mode
-//				rtnVal = 10;
-//			}
-//		}
-//
-//		if (rtnVal == 99) {
-//			System.out.println("Error: Unknown Opcode!");
-//			System.out.println("Opcode: " + byte1);
-//		}
-//		return rtnVal;
-//	}
 
 	/**
 	 * Executes the instruction stored in memory.
@@ -231,107 +169,11 @@ public class CPU {
 	 */
 	private boolean execute(Memory m, MachineInstruction mi) {
 		boolean end = false;
-		try {
+//		try {
 			end = mi.execute(m, registerMap, myALU, pep8View);
-//				byte operSpec1 = (byte) (((instrReg.getReg() & 0xFF00)) >> 8);
-//				byte operSpec2 = (byte) (instrReg.getReg() & 0xFF);
-//				//progCounter.offset((byte) 2);
-//				if (instrType == 1) {
-//					//load operand into register A
-//					//immediate addressing mode
-////					short fuse = fuseBytes(operSpec1, operSpec2);
-////					regA.load(fuse);
-//
-//                    mi.execute(m, registerMap, myALU, pep8View);
-//                    System.out.println(instrReg.getReg());
-//
-//				} else if (instrType == 2) {
-//					//load operand into register A
-//					//direct addressing mode
-//					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-//					byte retrieved = m.getInstruction(fuse);
-//					byte retrievedN = m.getInstruction((short) (fuse + 1));
-//					short retr = fuseBytes(retrieved, retrievedN);
-//					regA.load(retr);
-//
-//				} else if (instrType == 3) {
-//					progCounter.offset((byte) 2);
-//					//store the A register to the location in operand
-//					short whole = regA.getReg();
-//					boolean[] wholeBool = this.toBoolArray(whole);
-//					boolean[] half1 = new boolean[8];
-//					boolean[] half2 = new boolean[8];
-//					System.arraycopy(wholeBool, 0, half1, 0, half1.length);
-//					System.arraycopy(wholeBool, 8, half2, 0, half2.length);
-//					byte sHalf1 = this.toByte(half1);
-//					byte sHalf2 = this.toByte(half2);
-//					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-//					m.storeInstruction(fuse, sHalf1);
-//					m.storeInstruction((short) (fuse + 1), sHalf2);
-//
-//				} else if (instrType == 4) {
-//					progCounter.offset((byte) 2);
-//					//Add the operand to the A register
-//					//immediate addressing mode
-//					short fuse = this.fuseBytes(operSpec1, operSpec2);
-//					regA.load(myALU.add(regA, fuse));
-//
-//				} else if (instrType == 5) {
-//					progCounter.offset((byte) 2);
-//					//Add the operand to the A register
-//					//direct addressing mode
-//					short address = this.calculateDirectAddress(operSpec1, operSpec2);
-//			        short addressR = (short) (address + 1);
-//			        byte addressVal = m.getInstruction(address);
-//			        byte addressRVal = m.getInstruction(addressR);
-//			        short fuse = this.fuseBytes(addressVal, addressRVal);
-//					regA.load(myALU.add(regA, fuse));
-//
-//				} else if (instrType == 6) {
-//					progCounter.offset((byte) 2);
-//					//Subtract the operand to the A register
-//					//immediate addressing mode
-//					short fuse = this.fuseBytes(operSpec1, operSpec2);
-//					regA.load(myALU.subtract(regA, fuse));
-//
-//				} else if (instrType == 7) {
-//					progCounter.offset((byte) 2);
-//					//Subtract the operand to the A register
-//					//direct addressing mode
-//					short address = this.calculateDirectAddress(operSpec1, operSpec2);
-//			        short addressR = (short) (address + 1);
-//			        byte addressVal = m.getInstruction(address);
-//			        byte addressRVal = m.getInstruction(addressR);
-//			        short fuse = this.fuseBytes(addressVal, addressRVal);
-//					regA.load(myALU.subtract(regA, fuse));
-//
-//				} else if (instrType == 8) {
-//					progCounter.offset((byte) 2);
-//					//Char input to location of operand
-//					byte scannedInput = (byte) pep8View.getBatchInput();
-//					short fuse = fuseBytes(operSpec1, operSpec2);
-//					m.storeInstruction(fuse, scannedInput);
-//
-//				} else if (instrType == 9) {
-//					progCounter.offset((byte) 2);
-//					//Char output from operand
-//					//immediate addressing mode
-//					short fuse = this.fuseBytes(operSpec1, operSpec2);
-//					char out = (char) fuse;
-//					pep8View.output(out);
-//
-//
-//				} else if (instrType == 10) {
-//					progCounter.offset((byte) 2);
-//					//Char output from operand
-//					//direct addressing mode
-//					short fuse = this.calculateDirectAddress(operSpec1, operSpec2);
-//					char out = (char) m.getInstruction(fuse);
-//					pep8View.output(out);
-//			}
-		} catch (Exception E) {
-			System.out.println("Error in Execution!");
-		}
+//		} catch (Exception E) {
+//			System.out.println("Error in Execution!");
+//		}
 
 		return end;
 	}

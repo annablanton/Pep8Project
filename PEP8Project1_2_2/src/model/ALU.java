@@ -1,5 +1,7 @@
 package model;
 
+import view.GUI;
+
 import java.util.Arrays;
 
 /**
@@ -17,12 +19,14 @@ public class ALU {
 	private Flag zFlag;
 	private Flag vFlag;
 	private Flag cFlag;
+	private GUI view;
 
-	public ALU() {
+	public ALU(GUI v) {
 		nFlag = Flag.N;
 		zFlag = Flag.Z;
 		vFlag = Flag.V;
 		cFlag = Flag.C;
+		view = v;
 	}
 	
 	/**
@@ -48,28 +52,35 @@ public class ALU {
 					booleanResult[i] = cFlag.isSet();
 					//cFlag should be true at the end if the last bit had a carry
 					cFlag.setFlag(true);
+					view.setCbox(true);
 				} else if (val1 || val2) {
 					if (cFlag.isSet()) {
 						booleanResult[i] = false;
 						cFlag.setFlag(true);
+						view.setCbox(true);
 					} else {
 						booleanResult[i] = true;
 						cFlag.setFlag(false);
+						view.setCbox(true);
 					}
 				} else {
 					booleanResult[i] = cFlag.isSet();
 					cFlag.setFlag(false);
+					view.setCbox(false);
 				}
 			}
 			if ((boolArray1[boolArray1.length-1] == boolArray2[boolArray2.length-1]) && (booleanResult[booleanResult.length-1]!=boolArray1[boolArray1.length-1])) {
 				vFlag.setFlag(true);
+				view.setVbox(true);
 			}
 		}
 		short s = toShort(booleanResult);
 		if (s == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		} else if (s < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		}
 		return s;
 	}
@@ -114,8 +125,10 @@ public class ALU {
 		short ret = (short) (x1 & x2);
 		if (ret < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (ret == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
 		return ret;
 	}
@@ -126,8 +139,10 @@ public class ALU {
 		short ret = (short) (x1 | x2);
 		if (ret < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (ret == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
 		return ret;
 	}
@@ -142,23 +157,29 @@ public class ALU {
 	public short not(Register r) {
 		resetFlags();
 		short x = r.getReg();
+		x=(short) ~x;
 		if (x < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (x == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
-		return (short) ~x;
+		return x;
 	}
 
 	public short negate(Register r) {
 		resetFlags();
 		short x = r.getReg();
+		x = (short) (~x+1);
 		if (x < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (x == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
-		return (short) (~x+1);
+		return x;
 	}
 
 	public short arithShiftLeft(Register r) {
@@ -166,16 +187,20 @@ public class ALU {
 		short x = r.getReg();
 		boolean[] boolArr1 = toBoolArray(x);
 		cFlag.setFlag(boolArr1[0]);
+		view.setCbox(boolArr1[0]);
 		x <<= 1;
 		boolean[] boolArr2 = toBoolArray(x);
 		if (boolArr2[0] != boolArr1[0]) {
 			vFlag.setFlag(true);
+			view.setVbox(true);
 		}
 
 		if (x < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (x == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
 
 		return x;
@@ -186,12 +211,15 @@ public class ALU {
 		short x = r.getReg();
 		boolean[] boolArr = toBoolArray(x);
 		cFlag.setFlag(boolArr[boolArr.length-1]);
+		view.setCbox(boolArr[boolArr.length-1]);
 
 		x >>= 1;
 		if (x < 0) {
 			nFlag.setFlag(true);
+			view.setNbox(true);
 		} else if (x == 0) {
 			zFlag.setFlag(true);
+			view.setZbox(true);
 		}
 
 		return x;
@@ -203,6 +231,7 @@ public class ALU {
 		resetFlags();
 		boolean[] boolArr1 = toBoolArray(x);
 		cFlag.setFlag(boolArr1[0]);
+		view.setCbox(boolArr1[0]);
 		x <<= 1;
 		boolean[] boolArr2 = toBoolArray(x);
 		boolArr2[boolArr2.length-1]=carryBit;
@@ -215,6 +244,7 @@ public class ALU {
 		resetFlags();
 		boolean[] boolArr1 = toBoolArray(x);
 		cFlag.setFlag(boolArr1[boolArr1.length-1]);
+		view.setCbox(boolArr1[boolArr1.length-1]);
 		x >>= 1;
 		boolean[] boolArr2 = toBoolArray(x);
 		boolArr2[0] = carryBit;
@@ -299,6 +329,10 @@ public class ALU {
 		return rtnShort;
 	}
 	private void resetFlags() {
+		view.setNbox(false);
+		view.setZbox(false);
+		view.setVbox(false);
+		view.setCbox(false);
 		nFlag.setFlag(false);
 		zFlag.setFlag(false);
 		vFlag.setFlag(false);
