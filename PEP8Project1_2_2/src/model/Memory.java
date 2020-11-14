@@ -20,6 +20,8 @@ public class Memory {
 		return mem[Short.toUnsignedInt(addr)];
 	}
 
+	public byte getByte(short addr) {return getInstruction(addr);}
+
 	public short getData(short addr) {
 		System.out.println("getData call" + addr);
 		return fuseBytes(mem[Short.toUnsignedInt(addr)], mem[Short.toUnsignedInt(addr)+1]);
@@ -44,6 +46,9 @@ public class Memory {
 	 */
 	public void storeCharacter(short addr, byte ... d) {
 		storeInstruction(addr, d);
+	}
+
+	public void storeByte(short addr, byte ... d) {storeInstruction(addr, d);
 	}
 
 	public char getCharacter(short addr) {

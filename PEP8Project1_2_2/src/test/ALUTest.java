@@ -58,4 +58,10 @@ public class ALUTest {
         r.load((short) -3);
         assertEquals( 3, alu.add(r, (short) 6));
     }
+
+    @Test
+    public void testAnd() {
+        r.load((short) 10);
+        assertEquals(2, alu.and(r, (short) 2));
+    }
 }

@@ -19,4 +19,8 @@ public class Register {
 	public void load(short val) {
 		reg = val;
 	}
+
+	public byte getByte() {
+		return (byte) ((getReg() & 0xFF00) >> 8);
+	}
 }

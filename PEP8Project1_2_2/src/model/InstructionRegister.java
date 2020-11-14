@@ -21,4 +21,5 @@ public class InstructionRegister extends Register {
 	public void setSpecifier(byte s) {
 		specifier = s;
 	}
+
 }
