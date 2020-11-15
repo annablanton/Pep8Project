@@ -19,6 +19,7 @@ public class StoreByteInstruction extends MachineInstruction {
             throw new UnsupportedOperationException("Illegal operation (cannot use store instruction in immediate mode");
         } else if (getAddressingMode() == AddressingMode.DIRECT) {
             if (getRegName() == RegName.A) {
+                System.out.println(instrReg.getReg());
                 m.storeByte(instrReg.getReg(), regA.getByte());
             } else {
                 throw new UnsupportedOperationException("Index register not yet supported");

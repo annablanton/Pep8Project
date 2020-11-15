@@ -106,7 +106,7 @@ public class CPU {
 				Map.entry(LoadInstruction.getIdentifier(), LoadInstruction::new),
 				Map.entry(LoadByteInstruction.getIdentifier(), LoadByteInstruction::new),
 				Map.entry(StoreInstruction.getIdentifier(), StoreInstruction::new),
-				Map.entry(StoreByteInstruction.getIdentifier(), StoreInstruction::new)
+				Map.entry(StoreByteInstruction.getIdentifier(), StoreByteInstruction::new)
 		);
 	}
 
