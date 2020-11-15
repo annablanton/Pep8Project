@@ -165,46 +165,6 @@ public class CPU {
 		}
 
 		throw new UnsupportedOperationException("Machine instruction unsupported");
-//		if (binString.equals("00000000")) {
-//			return new StopInstruction();
-//		} else if (binString.startsWith("0000010")) {
-//			return getBranchInstr(UnconditionalBranchInstruction::new, binString.substring(7));
-//		}  else if (binString.startsWith("0000011")) {
-//			return getBranchInstr(BRLEInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0000100")) {
-//			return getBranchInstr(BRLTInstruction::new, binString.substring(7));
-//		}  else if (binString.startsWith("0000101")) {
-//			return getBranchInstr(BREQInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0000110")) {
-//			return getBranchInstr(BRNEInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0000111")) {
-//			return getBranchInstr(BRGTInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0001001")) {
-//			return getBranchInstr(BRVInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0001010")) {
-//			return getBranchInstr(BRCInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0001100")) {
-//			return getRegInstr(NotInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0001101")) {
-//			return getRegInstr(NegInstruction::new, binString.substring(7));
-//		} else if (binString.startsWith("0001110")) {
-//
-//		}
-//		else if (binString.startsWith("01001")) {
-//			return getAddrModeInstr(CharInputInstruction::new, binString.substring(5));
-//		} else if (binString.startsWith("01010")) {
-//			return getAddrModeInstr(CharOutputInstruction::new, binString.substring(5));
-//		} else if (binString.startsWith("0111")) {
-//			return getTwoOperandInstr(AddInstruction::new, binString.substring(4));
-//		} else if (binString.startsWith("1000")) {
-//			return getTwoOperandInstr(SubtractInstruction::new, binString.substring(4));
-//		} else if (binString.startsWith("1100")) {
-//			return getTwoOperandInstr(LoadInstruction::new, binString.substring(4));
-//		} else if (binString.startsWith("1110")) {
-//			return getTwoOperandInstr(StoreInstruction::new, binString.substring(4));
-//		} else {
-//			throw new UnsupportedOperationException("Unknown instruction");
-//		}
 	}
 
 	/**
@@ -214,11 +174,11 @@ public class CPU {
 	 */
 	private boolean execute(Memory m, MachineInstruction mi) {
 		boolean end = false;
-//		try {
+		try {
 			end = mi.execute(m, registerMap, myALU, pep8View);
-//		} catch (Exception E) {
-//			System.out.println("Error in Execution!");
-//		}
+		} catch (Exception E) {
+			System.out.println("Error in Execution!");
+		}
 
 		return end;
 	}
