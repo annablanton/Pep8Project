@@ -225,47 +225,6 @@ public class CPU {
 	}
 	
 	/**
-	 * Helper function used to calculate the direct address.
-	 * @param b1 Byte from the first operand.
-	 * @param b2 Byte from the second operand.
-	 * @return Short containing the desired address.
-	 */
-//	private short calculateDirectAddress(byte b1, byte b2) {
-//		boolean[] oper1Array = this.toBoolArray(b1);
-//		boolean[] oper2Array = this.toBoolArray(b2);
-//		boolean[] fuseArray = new boolean[16];
-//		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
-//		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
-//		return this.toShort(fuseArray);
-//	}
-	
-	/**
-	 * A helper function which converts a byte into an 8 bit boolean array.
-	 * @param x The byte that we will manipulate.
-	 * @return A boolean array equivalent to our byte value.
-	 */
-//	private boolean[] toBoolArray(byte x) {
-//		boolean[] rtnArray = new boolean[8];
-//		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
-//		for (int i = 0; i < rtnArray.length; i++) {
-//			if (i == 0) {
-//				if (x < 0) {
-//					rtnArray[i] = true;
-//					x = (byte) (x - 128);
-//				}
-//			} else {
-//				if (x >= twoPow[i - 1]) {
-//					rtnArray[i] = true;
-//					x-= twoPow[i - 1];
-//				} else {
-//					rtnArray[i] = false;
-//				}
-//			}
-//		}
-//		return rtnArray;
-//	}
-	
-	/**
 	 * A helper method which converts a boolean array to a short.
 	 * @param boolArray The boolean array that we wish to convert.
 	 * @return A short value representing the input boolean array.
