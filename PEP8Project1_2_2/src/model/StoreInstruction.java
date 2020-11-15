@@ -18,7 +18,7 @@ public class StoreInstruction extends MachineInstruction {
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             throw new UnsupportedOperationException("Illegal operation (cannot use store instruction in immediate mode");
         } else if (getAddressingMode() == AddressingMode.DIRECT) {
-            System.out.println("a");
+            //System.out.println("a");
             if (getRegName() == RegName.A) {
                 m.storeData(instrReg.getReg(), regA.getReg());
             } else {
