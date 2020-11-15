@@ -665,6 +665,10 @@ public class GUI extends JFrame implements ActionListener {
 			BatchIO.setText("");
 			Outputtext.setText("");
 			batchIndex = -1;
+			setCbox(false);
+			setNbox(false);
+			setVbox(false);
+			setZbox(false);
 			firePropertyChange("New", null, null);
         } else if(userinput.equals("Cut Object Code")) {
         	ObjCode.cut();
