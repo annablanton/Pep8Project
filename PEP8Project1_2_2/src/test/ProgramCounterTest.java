@@ -25,4 +25,11 @@ public class ProgramCounterTest {
         pc.offset((byte) 2);
         assertEquals(2, Short.toUnsignedInt(pc.getReg()));
     }
+
+    @Test
+    public void testReset() {
+        pc.offset((byte) 2);
+        pc.reset();
+        assertEquals(0, pc.getReg());
+    }
 }
