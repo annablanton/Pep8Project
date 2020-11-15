@@ -19,4 +19,8 @@ public class ASLInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0001110";
+    }
 }

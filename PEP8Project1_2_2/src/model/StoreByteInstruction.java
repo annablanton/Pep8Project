@@ -37,4 +37,8 @@ public class StoreByteInstruction extends MachineInstruction {
 
         return false;
     }
+
+    public static String getIdentifier() {
+        return "1111";
+    }
 }

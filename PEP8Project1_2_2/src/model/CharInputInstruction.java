@@ -27,4 +27,8 @@ public class CharInputInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "01001";
+    }
 }

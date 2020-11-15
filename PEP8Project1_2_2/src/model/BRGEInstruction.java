@@ -24,4 +24,8 @@ public class BRGEInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0000111";
+    }
 }

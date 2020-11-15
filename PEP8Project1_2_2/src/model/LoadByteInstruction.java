@@ -40,4 +40,8 @@ public class LoadByteInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "1101";
+    }
 }

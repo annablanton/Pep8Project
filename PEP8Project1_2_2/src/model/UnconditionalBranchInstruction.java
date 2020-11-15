@@ -22,4 +22,8 @@ public class UnconditionalBranchInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0000010";
+    }
 }

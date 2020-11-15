@@ -12,4 +12,8 @@ public class StopInstruction extends MachineInstruction {
     public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
         return true;
     }
+
+    public static String getIdentifier() {
+        return "00000000";
+    }
 }

@@ -30,4 +30,8 @@ public class CharOutputInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "01010";
+    }
 }

@@ -20,4 +20,8 @@ public class ROLInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0010000";
+    }
 }

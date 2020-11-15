@@ -17,4 +17,8 @@ public class NotInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0001100";
+    }
 }

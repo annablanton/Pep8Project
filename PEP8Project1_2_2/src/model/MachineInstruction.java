@@ -43,4 +43,12 @@ public abstract class MachineInstruction {
     }
 
     public abstract boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view);
+
+    /**
+     * This is only here because Java does not support static abstract methods
+     * @return error string
+     */
+    public static String getIdentifier() {
+        return "Error: this should never be called";
+    }
 }

@@ -19,4 +19,8 @@ public class RORInstruction extends MachineInstruction{
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0010001";
+    }
 }

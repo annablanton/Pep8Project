@@ -24,4 +24,8 @@ public class BREQInstruction extends MachineInstruction{
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0000101";
+    }
 }

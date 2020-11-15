@@ -40,4 +40,8 @@ public class LoadInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "1100";
+    }
 }

@@ -26,4 +26,8 @@ public class BRCInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0001010";
+    }
 }

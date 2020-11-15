@@ -24,4 +24,8 @@ public class BRLEInstruction extends MachineInstruction {
         }
         return false;
     }
+
+    public static String getIdentifier() {
+        return "0000011";
+    }
 }

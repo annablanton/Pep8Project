@@ -2,7 +2,10 @@ package model;
 
 import view.GUI;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -44,6 +47,14 @@ public class CPU {
 	private boolean isFirst;
 
 	private Map<RegName, Register> registerMap;
+
+	private Map<String, Function<AddressingMode, MachineInstruction>> branchInstrMap;
+
+	private Map<String, Function<RegName, MachineInstruction>> regInstrMap;
+
+	private Map<String, Function<AddressingMode, MachineInstruction>> addrInstrMap;
+
+	private Map<String, BiFunction<AddressingMode, RegName, MachineInstruction>> twoOperandMap;
 	
 	/**
 	 * Initializes our CPU
@@ -59,6 +70,44 @@ public class CPU {
                 Map.entry(RegName.PC, progCounter),
                 Map.entry(RegName.INSTRUCTION, instrReg)
         );
+
+		branchInstrMap = Map.ofEntries(
+				Map.entry(UnconditionalBranchInstruction.getIdentifier(), UnconditionalBranchInstruction::new),
+				Map.entry(BRLEInstruction.getIdentifier(), BRLEInstruction::new),
+				Map.entry(BRLTInstruction.getIdentifier(), BRLTInstruction::new),
+				Map.entry(BREQInstruction.getIdentifier(), BREQInstruction::new),
+				Map.entry(BRNEInstruction.getIdentifier(), BRNEInstruction::new),
+				Map.entry(BRGEInstruction.getIdentifier(), BRGEInstruction::new),
+				Map.entry(BRGTInstruction.getIdentifier(), BRGTInstruction::new),
+				Map.entry(BRVInstruction.getIdentifier(), BRVInstruction::new),
+				Map.entry(BRCInstruction.getIdentifier(), BRCInstruction::new)
+		);
+
+		regInstrMap = Map.ofEntries(
+				Map.entry(NotInstruction.getIdentifier(), NotInstruction::new),
+				Map.entry(NegInstruction.getIdentifier(), NegInstruction::new),
+				Map.entry(ASLInstruction.getIdentifier(), ASLInstruction::new),
+				Map.entry(ASRInstruction.getIdentifier(), ASRInstruction::new),
+				Map.entry(ROLInstruction.getIdentifier(), ROLInstruction::new),
+				Map.entry(RORInstruction.getIdentifier(), RORInstruction::new)
+		);
+
+		addrInstrMap = Map.ofEntries(
+				Map.entry(CharInputInstruction.getIdentifier(), CharInputInstruction::new),
+				Map.entry(CharOutputInstruction.getIdentifier(), CharOutputInstruction::new)
+		);
+
+		twoOperandMap = Map.ofEntries(
+				Map.entry(AddInstruction.getIdentifier(), AddInstruction::new),
+				Map.entry(SubtractInstruction.getIdentifier(), SubtractInstruction::new),
+				Map.entry(AndInstruction.getIdentifier(), AddInstruction::new),
+				Map.entry(OrInstruction.getIdentifier(), OrInstruction::new),
+				Map.entry(CompareInstruction.getIdentifier(), CompareInstruction::new),
+				Map.entry(LoadInstruction.getIdentifier(), LoadInstruction::new),
+				Map.entry(LoadByteInstruction.getIdentifier(), LoadByteInstruction::new),
+				Map.entry(StoreInstruction.getIdentifier(), StoreInstruction::new),
+				Map.entry(StoreByteInstruction.getIdentifier(), StoreInstruction::new)
+		);
 	}
 
 	/**
@@ -86,80 +135,76 @@ public class CPU {
 	private MachineInstruction decode(Memory m) {
 		Binary binInstr = new Binary(instrReg.getSpecifier());
 		String binString = binInstr.getVal();
+
+		for (int i = 0; i < twoOperandMap.size(); i++) {
+			if (twoOperandMap.containsKey(binString.substring(0,4))) {
+				return getTwoOperandInstr(twoOperandMap.get(binString.substring(0,4)), binString.substring(4));
+			}
+		}
+
+		for (int i = 0; i < addrInstrMap.size(); i++) {
+			if (addrInstrMap.containsKey(binString.substring(0,5))) {
+				return getAddrModeInstr(addrInstrMap.get(binString.substring(0, 5)), binString.substring(5));
+			}
+		}
+
+		for (int i = 0; i < regInstrMap.size(); i++) {
+			if (regInstrMap.containsKey(binString.substring(0, 7))) {
+				return getRegInstr(regInstrMap.get(binString.substring(0,7)), binString.substring(7));
+			}
+		}
+
+		for (int i = 0; i < branchInstrMap.size(); i++) {
+			if (branchInstrMap.containsKey(binString.substring(0, 7))) {
+				return getBranchInstr(branchInstrMap.get(binString.substring(0, 7)), binString.substring(7));
+			}
+		}
+
 		if (binString.equals("00000000")) {
 			return new StopInstruction();
-		} else if (binString.startsWith("01001")) {
-			return switch (binString.substring(5)) {
-				case "000" -> new CharInputInstruction(AddressingMode.IMMEDIATE);
-				case "001" -> new CharInputInstruction(AddressingMode.DIRECT);
-				case "010" -> new CharInputInstruction(AddressingMode.DIRECT);
-				default -> throw new UnsupportedOperationException("Addressing mode for char input instruction unsupported");
-			};
-		} else if (binString.startsWith("01010")) {
-			return switch (binString.substring(5)) {
-				case "000" -> new CharOutputInstruction(AddressingMode.IMMEDIATE);
-				case "001" -> new CharOutputInstruction(AddressingMode.DIRECT);
-				case "010" -> new CharOutputInstruction(AddressingMode.DIRECT);
-				default -> throw new UnsupportedOperationException("Addressing mode for char output instruction unsupported");
-			};
-		} else if (binString.startsWith("0111")) {
-			RegName rn;
-			if (binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-			return switch (binString.substring(5)) {
-				case "000" -> new AddInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new AddInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new AddInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for add instruction unsupported");
-			};
-		} else if (binString.startsWith("1000")) {
-			RegName rn;
-			if (binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-			//System.out.println(binString.substring(5));
-			return switch (binString.substring(5)) {
-				case "000" -> new SubtractInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new SubtractInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new SubtractInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
-			};
-		} else if (binString.startsWith("1100")) {
-			RegName rn;
-			if(binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-
-			return switch (binString.substring(5)) {
-				case "000" -> new LoadInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new LoadInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new LoadInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for load instruction unsupported");
-			};
-		} else if (binString.startsWith("1110")) {
-			RegName rn;
-			if(binString.charAt(4) == '0') {
-				rn = RegName.A;
-			} else {
-				rn = RegName.INDEX;
-			}
-
-			return switch (binString.substring(5)) {
-				case "000" -> new StoreInstruction(AddressingMode.IMMEDIATE, rn);
-				case "001" -> new StoreInstruction(AddressingMode.DIRECT, rn);
-				case "010" -> new StoreInstruction(AddressingMode.INDIRECT, rn);
-				default -> throw new UnsupportedOperationException("Addressing mode for subtract instruction unsupported");
-			};
-		} else {
-			throw new UnsupportedOperationException("Unknown instruction");
 		}
+
+		throw new UnsupportedOperationException("Machine instruction unsupported");
+//		if (binString.equals("00000000")) {
+//			return new StopInstruction();
+//		} else if (binString.startsWith("0000010")) {
+//			return getBranchInstr(UnconditionalBranchInstruction::new, binString.substring(7));
+//		}  else if (binString.startsWith("0000011")) {
+//			return getBranchInstr(BRLEInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0000100")) {
+//			return getBranchInstr(BRLTInstruction::new, binString.substring(7));
+//		}  else if (binString.startsWith("0000101")) {
+//			return getBranchInstr(BREQInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0000110")) {
+//			return getBranchInstr(BRNEInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0000111")) {
+//			return getBranchInstr(BRGTInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0001001")) {
+//			return getBranchInstr(BRVInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0001010")) {
+//			return getBranchInstr(BRCInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0001100")) {
+//			return getRegInstr(NotInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0001101")) {
+//			return getRegInstr(NegInstruction::new, binString.substring(7));
+//		} else if (binString.startsWith("0001110")) {
+//
+//		}
+//		else if (binString.startsWith("01001")) {
+//			return getAddrModeInstr(CharInputInstruction::new, binString.substring(5));
+//		} else if (binString.startsWith("01010")) {
+//			return getAddrModeInstr(CharOutputInstruction::new, binString.substring(5));
+//		} else if (binString.startsWith("0111")) {
+//			return getTwoOperandInstr(AddInstruction::new, binString.substring(4));
+//		} else if (binString.startsWith("1000")) {
+//			return getTwoOperandInstr(SubtractInstruction::new, binString.substring(4));
+//		} else if (binString.startsWith("1100")) {
+//			return getTwoOperandInstr(LoadInstruction::new, binString.substring(4));
+//		} else if (binString.startsWith("1110")) {
+//			return getTwoOperandInstr(StoreInstruction::new, binString.substring(4));
+//		} else {
+//			throw new UnsupportedOperationException("Unknown instruction");
+//		}
 	}
 
 	/**
@@ -177,6 +222,47 @@ public class CPU {
 
 		return end;
 	}
+
+	private MachineInstruction getTwoOperandInstr(BiFunction<AddressingMode, RegName, MachineInstruction> f, String s) {
+		RegName r;
+		if (s.startsWith("0")) {
+			r = RegName.A;
+		} else if (s.startsWith("1")) {
+			r = RegName.INDEX;
+		} else {
+			throw new IllegalArgumentException("Non-binary string passed");
+		}
+		return switch (s.substring(1)) {
+			case "000" -> f.apply(AddressingMode.IMMEDIATE, r);
+			case "001" -> f.apply(AddressingMode.DIRECT, r);
+			case "010" -> f.apply(AddressingMode.INDIRECT, r);
+			default -> throw new UnsupportedOperationException("Addressing mode unsupported");
+		};
+	}
+
+	private MachineInstruction getAddrModeInstr(Function<AddressingMode, MachineInstruction> f, String s) {
+		return switch (s) {
+			case "000" -> f.apply(AddressingMode.IMMEDIATE);
+			case "001" -> f.apply(AddressingMode.DIRECT);
+			case "010" -> f.apply(AddressingMode.INDIRECT);
+			default -> throw new UnsupportedOperationException("Addressing mode unsupported");
+		};
+	}
+
+	private MachineInstruction getBranchInstr(Function<AddressingMode, MachineInstruction> f,String s) {
+		return switch(s) {
+			case "0" -> f.apply(AddressingMode.IMMEDIATE);
+			default -> throw new UnsupportedOperationException("Addressing mode unsupported");
+		};
+	}
+
+	private MachineInstruction getRegInstr(Function<RegName, MachineInstruction> f, String s) {
+		return switch(s) {
+			case "0" -> f.apply(RegName.A);
+			case "1" -> f.apply(RegName.INDEX);
+			default -> throw new IllegalArgumentException("Non-binary string passed");
+		};
+	}
 	
 	/**
 	 * Helper function used to calculate the direct address.
@@ -184,40 +270,40 @@ public class CPU {
 	 * @param b2 Byte from the second operand.
 	 * @return Short containing the desired address.
 	 */
-	private short calculateDirectAddress(byte b1, byte b2) {
-		boolean[] oper1Array = this.toBoolArray(b1);
-		boolean[] oper2Array = this.toBoolArray(b2);
-		boolean[] fuseArray = new boolean[16];
-		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
-		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
-		return this.toShort(fuseArray);
-	}
+//	private short calculateDirectAddress(byte b1, byte b2) {
+//		boolean[] oper1Array = this.toBoolArray(b1);
+//		boolean[] oper2Array = this.toBoolArray(b2);
+//		boolean[] fuseArray = new boolean[16];
+//		System.arraycopy(oper1Array, 0, fuseArray, 0, oper1Array.length);
+//		System.arraycopy(oper2Array, 0, fuseArray, 8, oper2Array.length);
+//		return this.toShort(fuseArray);
+//	}
 	
 	/**
 	 * A helper function which converts a byte into an 8 bit boolean array.
 	 * @param x The byte that we will manipulate.
 	 * @return A boolean array equivalent to our byte value.
 	 */
-	private boolean[] toBoolArray(byte x) {
-		boolean[] rtnArray = new boolean[8];
-		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
-		for (int i = 0; i < rtnArray.length; i++) {
-			if (i == 0) {
-				if (x < 0) {
-					rtnArray[i] = true;
-					x = (byte) (x - 128);
-				}
-			} else {
-				if (x >= twoPow[i - 1]) {
-					rtnArray[i] = true;
-					x-= twoPow[i - 1];
-				} else {
-					rtnArray[i] = false;
-				}
-			}
-		}
-		return rtnArray;
-	}
+//	private boolean[] toBoolArray(byte x) {
+//		boolean[] rtnArray = new boolean[8];
+//		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
+//		for (int i = 0; i < rtnArray.length; i++) {
+//			if (i == 0) {
+//				if (x < 0) {
+//					rtnArray[i] = true;
+//					x = (byte) (x - 128);
+//				}
+//			} else {
+//				if (x >= twoPow[i - 1]) {
+//					rtnArray[i] = true;
+//					x-= twoPow[i - 1];
+//				} else {
+//					rtnArray[i] = false;
+//				}
+//			}
+//		}
+//		return rtnArray;
+//	}
 	
 	/**
 	 * A helper method which converts a boolean array to a short.
@@ -247,65 +333,65 @@ public class CPU {
 	 * @param b2 The second byte
 	 * @return Short resulting from placing these bytes back to back.
 	 */
-	private short fuseBytes(byte b1, byte b2) {
-		boolean[] oper1Array = this.toBoolArray(b1);
-		boolean[] oper2Array = this.toBoolArray(b2);
-		boolean[] fuseArray = new boolean[16];
-		System.arraycopy(oper1Array, 0, fuseArray, 0, 8);
-		System.arraycopy(oper2Array, 0, fuseArray, 8, 8);
-		return this.toShort(fuseArray);
-	}
+//	private short fuseBytes(byte b1, byte b2) {
+//		boolean[] oper1Array = this.toBoolArray(b1);
+//		boolean[] oper2Array = this.toBoolArray(b2);
+//		boolean[] fuseArray = new boolean[16];
+//		System.arraycopy(oper1Array, 0, fuseArray, 0, 8);
+//		System.arraycopy(oper2Array, 0, fuseArray, 8, 8);
+//		return this.toShort(fuseArray);
+//	}
 	
 	/**
 	 * A helper function which converts a short into a 16 bit boolean array.
 	 * @param x The short that we will manipulate.
 	 * @return A boolean array equivalent to our short value.
 	 */
-	private boolean[] toBoolArray(short x) {
-		boolean[] rtnArray = new boolean[16];
-		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
-			for (int i = 0; i < rtnArray.length; i++) {
-				if (i == 0) {
-					if (x < 0) {
-						rtnArray[0] = true;
-						x = (short) (x - 32768);
-					} else {
-						rtnArray[0] = false;
-					}
-				} else {
-					if (x >= twoPow[i - 1]) {
-						rtnArray[i] = true;
-						x-= twoPow[i - 1];
-					} else {
-						rtnArray[i] = false;
-					}
-				}
-			}
-			//System.out.println(rtnArray.length);
-		return rtnArray;
-	}
+//	private boolean[] toBoolArray(short x) {
+//		boolean[] rtnArray = new boolean[16];
+//		short[] twoPow = {16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+//			for (int i = 0; i < rtnArray.length; i++) {
+//				if (i == 0) {
+//					if (x < 0) {
+//						rtnArray[0] = true;
+//						x = (short) (x - 32768);
+//					} else {
+//						rtnArray[0] = false;
+//					}
+//				} else {
+//					if (x >= twoPow[i - 1]) {
+//						rtnArray[i] = true;
+//						x-= twoPow[i - 1];
+//					} else {
+//						rtnArray[i] = false;
+//					}
+//				}
+//			}
+//			//System.out.println(rtnArray.length);
+//		return rtnArray;
+//	}
 	
 	/**
 	 * A helper method which converts a boolean array to a short.
 	 * @param boolArray The boolean array that we wish to convert.
 	 * @return A short value representing the input boolean array.
 	 */
-	private byte toByte(boolean[] boolArray) {
-		byte rtnByte = 0;
-		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
-		for (int i = 0; i < boolArray.length; i++) {
-			if (i == 0) {
-				if (boolArray[i]) {
-					rtnByte = (byte) -128;
-				}
-			} else {
-				if (boolArray[i]) {
-					rtnByte += twoPow[i - 1];
-				}
-			}
-		}
-		return rtnByte;
-	}
+//	private byte toByte(boolean[] boolArray) {
+//		byte rtnByte = 0;
+//		byte[] twoPow = {64, 32, 16, 8, 4, 2, 1};
+//		for (int i = 0; i < boolArray.length; i++) {
+//			if (i == 0) {
+//				if (boolArray[i]) {
+//					rtnByte = (byte) -128;
+//				}
+//			} else {
+//				if (boolArray[i]) {
+//					rtnByte += twoPow[i - 1];
+//				}
+//			}
+//		}
+//		return rtnByte;
+//	}
 
 	/**
 	 * Method that returns the values in all of the cpu registers.
