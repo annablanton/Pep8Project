@@ -1,5 +1,6 @@
 package test;
 
+import controller.Pep8Sim;
 import model.CPU;
 import model.Memory;
 import model.Register;
@@ -18,8 +19,8 @@ public class CPUTest {
 
     @Before
     public void setUp() {
-        GUI gui = new GUI(new JPanel());
-        cpu = new CPU(gui);
+        GUI gui = new GUI(new JPanel(), new JPanel(), new JTabbedPane(), new JMenuBar());
+        cpu = new CPU(gui, new Pep8Sim());
         m = new Memory();
     }
 

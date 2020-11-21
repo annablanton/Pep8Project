@@ -1,5 +1,6 @@
 package model;
 
+import controller.Pep8Sim;
 import view.GUI;
 
 import java.util.Map;
@@ -9,7 +10,7 @@ public class AndInstruction extends MachineInstruction {
         super("1001", a, r);
     }
 
-    public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
+    public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
         Register regA = regMap.get(RegName.A);

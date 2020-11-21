@@ -43,15 +43,15 @@ import javax.swing.filechooser.FileSystemView;
  * @author GROUP 6 Taehong Kim
  * @version 10/18/2020
  */
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame {
 	/**SerialVersion for GUI class.**/
 	private static final long serialVersionUID = 1L;
 	/**Setting Object code text area.**/
-	private JTextArea ObjCode;
+//	private JTextArea ObjCode;
 	/**Setting Main frame.**/
 	private JFrame frame = new JFrame();
 	/**Setting Line Start Panel.**/
-	private JPanel lineStartPanel = new JPanel();
+//	private JPanel lineStartPanel = new JPanel();
 	/**Setting Center main Panel.**/
 	private JPanel CenterPanel;
 	/**Setting font type for titles.**/
@@ -89,9 +89,9 @@ public class GUI extends JFrame implements ActionListener {
 	/**Setting Instruction text second area.**/
 	private JTextField Instructionout2;
 	/**Setting Tabbed panel for batch and terminal.**/
-	private JTabbedPane tabbedPane2;
+//	private JTabbedPane tabbedPane2;
 	/**Setting Batch IO text area.**/
-	private JTextArea BatchIO;
+//	private JTextArea BatchIO;
 	/**Setting Terminal text area.**/
 	private JTextArea Terminal;
 	/**Setting Output text area.**/
@@ -103,33 +103,33 @@ public class GUI extends JFrame implements ActionListener {
 	/**Setting Scroll for memory panel.**/
 	private JScrollPane scroll;
 	/**Setting main Menu bar.**/
-	private JMenuBar menuBar;
+//	private JMenuBar menuBar;
 	/**Setting sub-menw for new button.**/
 	private JMenuItem newMenu;
 	/**Setting File menu.**/
-	private JMenu File;
+//	private JMenu File;
 	/**Setting edit menu.**/
-	private JMenu Edit;
+//	private JMenu Edit;
 	/**Setting cut sub-menu.**/
-	private JMenuItem cutMenu;
+//	private JMenuItem cutMenu;
 	/**Setting paste sub-menu.**/
-	private JMenuItem pasteMenu;
+//	private JMenuItem pasteMenu;
 	/**Setting Build menu.**/
-	private JMenu Build;
+//	private JMenu Build;
 	/**Setting Load menu.**/
-	private JMenuItem loadMenu;
+//	private JMenuItem loadMenu;
 	/**Setting Run menu**/
-	private JMenuItem runMenu;
+//	private JMenuItem runMenu;
 	/**Setting open sub-menu.**/
-	private JMenuItem openMenu;
+//	private JMenuItem openMenu;
 	/**Setting tab panel.**/
 	private JTabbedPane tabbedPane;
 	/**Setting source code tab with text area.**/
 	private JTextArea sourceTab;
 	/**Setting trace tab with text area.**/
-	private JTextArea traceTab;
+//	private JTextArea traceTab;
 	/**Setting Text area for Aslisting.**/
-	private JTextArea AsListing;
+//	private JTextArea AsListing;
 	/**Setting down of cpu panel.**/
 	private JPanel Cpupaneldown;
 	/**Setting Stack pointer labels.**/
@@ -178,7 +178,7 @@ public class GUI extends JFrame implements ActionListener {
     /**
      * Constructor Virtual simulator GUI with frame. 
      */
-	public GUI(JPanel upPanel) {
+	public GUI(JPanel upPanel, JPanel lineStartPanel, JTabbedPane tabbedPane2, JMenuBar menuBar) {
 		frame = new JFrame("Virtual Simulator");	
 		frame.setSize(screenSize.width*3/4,screenSize.height*3/4); // frame size
 		frame.setVisible(true);
@@ -187,13 +187,13 @@ public class GUI extends JFrame implements ActionListener {
 				System.exit(0);
 			} 
 		});	
-		MenuBar();
+//		MenuBar();
 		frame.setJMenuBar(menuBar);
 		frame.getContentPane().add(upPanel, BorderLayout.PAGE_START);
-		LineStartPanel();
+//		LineStartPanel();
 		frame.getContentPane().add(lineStartPanel, BorderLayout.LINE_START);
-		CentralPanel();
-		frame.getContentPane().add(CenterPanel, BorderLayout.CENTER);	
+		CentralPanel(tabbedPane2);
+		frame.getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		LineEndPanel();
 		frame.getContentPane().add(LineEndPanel, BorderLayout.LINE_END);
 		frame.pack();
@@ -259,44 +259,44 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Constructor for line start Panel with components small panels.
 	 */
-	private void LineStartPanel () {
-		/*setting main Line Start Panel*/
-		lineStartPanel = new JPanel();
-		lineStartPanel.setLayout(new GridLayout(3,1));
-		lineStartPanel.setBorder(new TitledBorder(null, "CODE", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
-		lineStartPanel.setPreferredSize(new Dimension(screenSize.width/4,screenSize.height*9/14));	
-		/*Create first sub-panel with Tabbedpane*/
-		tabbedPane = new JTabbedPane();
-		tabbedPane.setSize(screenSize.width/4,screenSize.height*3/14);
-		tabbedPane.setFont(myFont);
-		
-		/*Setting source code and trace tabs with text areas and add to main Line Start Panel*/
-		sourceTab = new JTextArea("Please type your Souce Code here",screenSize.width/4,screenSize.height*3/14);
-		sourceTab.setFont(myFont);
-		traceTab = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
-		traceTab.setEditable(false);
-		tabbedPane.addTab("Code", sourceTab); tabbedPane.addTab("Trace", traceTab);
-		lineStartPanel.add(tabbedPane);
-		
-		/*Setting object code text areas and add to main Line Start Panel*/
-		ObjCode = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
-		ObjCode.setFont(myFont);
-		ObjCode.setBorder(new TitledBorder(null, "Object Code", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
-		ObjCode.setLineWrap(true);
-		lineStartPanel.add(ObjCode);
-		
-		/*Setting Aslisting text areas and add to main Line Start Panel*/		
-		AsListing = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
-		AsListing.setFont(myFont);
-		AsListing.setEditable(false);
-		AsListing.setBorder(new TitledBorder(null, "Assembler Listing", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
-		lineStartPanel.add(AsListing);
-	}
+//	private void LineStartPanel () {
+//		/*setting main Line Start Panel*/
+//		lineStartPanel = new JPanel();
+//		lineStartPanel.setLayout(new GridLayout(3,1));
+//		lineStartPanel.setBorder(new TitledBorder(null, "CODE", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
+//		lineStartPanel.setPreferredSize(new Dimension(screenSize.width/4,screenSize.height*9/14));
+//		/*Create first sub-panel with Tabbedpane*/
+//		tabbedPane = new JTabbedPane();
+//		tabbedPane.setSize(screenSize.width/4,screenSize.height*3/14);
+//		tabbedPane.setFont(myFont);
+//
+//		/*Setting source code and trace tabs with text areas and add to main Line Start Panel*/
+//		sourceTab = new JTextArea("Please type your Souce Code here",screenSize.width/4,screenSize.height*3/14);
+//		sourceTab.setFont(myFont);
+//		traceTab = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
+//		traceTab.setEditable(false);
+//		tabbedPane.addTab("Code", sourceTab); tabbedPane.addTab("Trace", traceTab);
+//		lineStartPanel.add(tabbedPane);
+//
+//		/*Setting object code text areas and add to main Line Start Panel*/
+//		ObjCode = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
+//		ObjCode.setFont(myFont);
+//		ObjCode.setBorder(new TitledBorder(null, "Object Code", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
+//		ObjCode.setLineWrap(true);
+//		lineStartPanel.add(ObjCode);
+//
+//		/*Setting Aslisting text areas and add to main Line Start Panel*/
+//		AsListing = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
+//		AsListing.setFont(myFont);
+//		AsListing.setEditable(false);
+//		AsListing.setBorder(new TitledBorder(null, "Assembler Listing", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
+//		lineStartPanel.add(AsListing);
+//	}
 	
 	/**
 	 * Constructor for main Central Panel with component small panels.
 	 */
-	private void CentralPanel() {
+	private void CentralPanel(JTabbedPane tabbedPane2) {
 		/*setting main Center Panel*/
 		CenterPanel = new JPanel();
 		CenterPanel.setLayout(new GridLayout(3,1));
@@ -322,7 +322,7 @@ public class GUI extends JFrame implements ActionListener {
 		InstructionPanel();
 		OperandSpecifier();
 		Operand();
-		BatchIO();
+		BatchIO(tabbedPane2);
 	}
 	
 	/**
@@ -527,14 +527,14 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Constructor for BatchIO and terminal text area with tabs.
 	 */
-	private void BatchIO() {
-		tabbedPane2 = new JTabbedPane();
-		tabbedPane2.setPreferredSize(new Dimension(screenSize.width/4,screenSize.height*3/14));
-		tabbedPane2.setFont(myFont);
-		BatchIO = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
-		BatchIO.setFont(myFont);
-		Terminal = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
-		tabbedPane2.addTab("BatchI/O", BatchIO); tabbedPane2.addTab("Terminal I/O", Terminal);
+	private void BatchIO(JTabbedPane tabbedPane2) {
+//		tabbedPane2 = new JTabbedPane();
+//		tabbedPane2.setPreferredSize(new Dimension(screenSize.width/4,screenSize.height*3/14));
+//		tabbedPane2.setFont(myFont);
+//		BatchIO = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
+//		BatchIO.setFont(myFont);
+//		Terminal = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
+//		tabbedPane2.addTab("BatchI/O", BatchIO); tabbedPane2.addTab("Terminal I/O", Terminal);
 		CenterPanel.add(tabbedPane2);
 		Outputtext = new JTextArea(null,screenSize.width/4,screenSize.height*3/14);
 		Outputtext.setFont(myFont);
@@ -547,10 +547,10 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Constructor for Line end Panel with components panels and scroll.
 	 */
-	private void LineEndPanel() {	
+	private void LineEndPanel() {
 		LineEndPanel = new JPanel();
 		LineEndPanel.setLayout(new GridLayout(1,1));
-		LineEndPanel.setBorder(new TitledBorder(null, "Memory", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));	
+		LineEndPanel.setBorder(new TitledBorder(null, "Memory", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
 		LineEndPanel.setPreferredSize(new Dimension(screenSize.width/4,screenSize.height*9/14));
 		Memory = new JTextArea(null,screenSize.width/4,screenSize.height*9/14);
 		Memory.setFont(myFont);
@@ -561,118 +561,121 @@ public class GUI extends JFrame implements ActionListener {
 		LineEndPanel.add(scroll);
 	}
 	
-	/**
-	 * Constructor for Menu Bar with sub-menu.
-	 */
-	private void MenuBar() {
-		/*Create file menu with sub-menu*/
-		menuBar = new JMenuBar();
-		File = new JMenu("File");
-		File.setFont(myFont);
-		newMenu = new JMenuItem("New");
-		newMenu.addActionListener(this);
-		openMenu = new JMenuItem("Open");
-		openMenu.addActionListener(this);
-		newMenu.setFont(myFont);
-		openMenu.setFont(myFont);
-		File.add(newMenu);
-		File.add(openMenu);	
-		
-		/*Create edit menu with sub-menu*/
-		Edit = new JMenu("Edit");
-		Edit.setFont(myFont);
-		cutMenu = new JMenuItem("Cut Object Code");
-		cutMenu.addActionListener(this);
-		pasteMenu = new JMenuItem("Paste into Object Code");
-		pasteMenu.addActionListener(this);
-		cutMenu.setFont(myFont);
-		pasteMenu.setFont(myFont);
-		Edit.add(cutMenu);
-		Edit.add(pasteMenu);	
-		
-		/*Create build menu with sub-menu*/
-		Build = new JMenu("Build");
-		Build.setFont(myFont);
-		loadMenu = new JMenuItem("Load");
-		loadMenu.addActionListener(this);
-		runMenu = new JMenuItem("Run");
-		runMenu.addActionListener(this);
-		loadMenu.setFont(myFont);
-		runMenu.setFont(myFont);
-		Build.add(loadMenu);
-		Build.add(runMenu);
-		
-		/*Adding all menu buttons to menubar*/
-		menuBar.add(File);menuBar.add(Build);menuBar.add(Edit);
-		frame.setJMenuBar(menuBar);
-	}
+//	/**
+//	 * Constructor for Menu Bar with sub-menu.
+//	 */
+//	private void MenuBar() {
+//		/*Create file menu with sub-menu*/
+//		menuBar = new JMenuBar();
+//		File = new JMenu("File");
+//		File.setFont(myFont);
+//		newMenu = new JMenuItem("New");
+//		newMenu.addActionListener(this);
+//		openMenu = new JMenuItem("Open");
+//		openMenu.addActionListener(this);
+//		newMenu.setFont(myFont);
+//		openMenu.setFont(myFont);
+//		File.add(newMenu);
+//		File.add(openMenu);
+//
+//		/*Create edit menu with sub-menu*/
+//		Edit = new JMenu("Edit");
+//		Edit.setFont(myFont);
+//		cutMenu = new JMenuItem("Cut Object Code");
+//		cutMenu.addActionListener(this);
+//		pasteMenu = new JMenuItem("Paste into Object Code");
+//		pasteMenu.addActionListener(this);
+//		cutMenu.setFont(myFont);
+//		pasteMenu.setFont(myFont);
+//		Edit.add(cutMenu);
+//		Edit.add(pasteMenu);
+//
+//		/*Create build menu with sub-menu*/
+//		Build = new JMenu("Build");
+//		Build.setFont(myFont);
+//		loadMenu = new JMenuItem("Load");
+//		loadMenu.addActionListener(this);
+//		runMenu = new JMenuItem("Run");
+//		runMenu.addActionListener(this);
+//		loadMenu.setFont(myFont);
+//		runMenu.setFont(myFont);
+//		Build.add(loadMenu);
+//		Build.add(runMenu);
+//
+//		/*Adding all menu buttons to menubar*/
+//		menuBar.add(File);menuBar.add(Build);menuBar.add(Edit);
+//		frame.setJMenuBar(menuBar);
+//	}
 
 	/**
 	 * Performs actions based on the action of the user. Open, Load, Save, Start, etc.
 	 * @param e The event triggered.
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String userinput = e.getActionCommand();
-		if(userinput.equals("Open")||userinput.equals("Load")) {
-			JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		    FileNameExtensionFilter restrict = new FileNameExtensionFilter("ONLY .txt file", "txt"); 
-		    chooser.addChoosableFileFilter(restrict); 
-			int read = chooser.showSaveDialog(null);   
-		    // if the user selects a file 
-            if (read == JFileChooser.APPROVE_OPTION){ 
-            	try {
-                    BufferedReader in;
-                    in = new BufferedReader(new FileReader(chooser.getSelectedFile()));
-                    String line = in.readLine();
-                    while (line != null) {
-                    	ObjCode.setText(ObjCode.getText()+ line + "\n" ); //line + "\n"
-                        line = in.readLine();
-                    } in.close();
-                } catch (IOException ex) {
-                    throw new RuntimeException(
-                            "creation is not possible.");
-                }     	
-            } 
-            else
-            	ObjCode.setText("Please choose .txt file or type object Code here"); 
-        } else if(userinput.equals("Save")) {
-        	 try {
-                 wordsScanner = new Scanner("INPUT:"+ObjCode.getText().toString()+"\n OUTPUT:" + Outputtext.getText().toString());  
-                 final PrintWriter writer = new PrintWriter(new FileOutputStream("src/result.txt"));
-                 while (wordsScanner.hasNextLine()) {
-                     writer.println(wordsScanner.nextLine());
-                 }
-                 writer.close();
-             } catch (final FileNotFoundException exception) {
-                 System.out.println("Please check your words input file name \n" + exception);
-             }
-        } else if(userinput.equals("Start")||userinput.equals("Run CODE")||userinput.equals("Run")) {
-        	firePropertyChange("Start", null, ObjCode.getText());
-        } else if(userinput.equals("New")) {
-			ObjCode.setText("");
-			Accumulatorout1.setText("");
-			Accumulatorout2.setText("");
-			Instructionout1.setText("");
-			Operand1.setText("");
-			Operand2.setText("");
-			ProgramCounterout1.setText("");
-			ProgramCounterout2.setText("");
-			Memory.setText("");
-			BatchIO.setText("");
-			Outputtext.setText("");
-			batchIndex = -1;
-			setCbox(false);
-			setNbox(false);
-			setVbox(false);
-			setZbox(false);
-			firePropertyChange("New", null, null);
-        } else if(userinput.equals("Cut Object Code")) {
-        	ObjCode.cut();
-        } else if(userinput.equals("Paste into Object Code")) {
-        	ObjCode.paste();;
-        }
-	}
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		String userinput = e.getActionCommand();
+//		if(userinput.equals("Open")||userinput.equals("Load")) {
+//			JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//		    FileNameExtensionFilter restrict = new FileNameExtensionFilter("ONLY .txt file", "txt");
+//		    chooser.addChoosableFileFilter(restrict);
+//			int read = chooser.showSaveDialog(null);
+//		    // if the user selects a file
+//            if (read == JFileChooser.APPROVE_OPTION){
+//            	try {
+//                    BufferedReader in;
+//                    in = new BufferedReader(new FileReader(chooser.getSelectedFile()));
+//                    String line = in.readLine();
+//                    while (line != null) {
+//                    	ObjCode.setText(ObjCode.getText()+ line + "\n" ); //line + "\n"
+//                        line = in.readLine();
+//                    } in.close();
+//                } catch (IOException ex) {
+//                    throw new RuntimeException(
+//                            "creation is not possible.");
+//                }
+//            }
+////            else
+////            	ObjCode.setText("Please choose .txt file or type object Code here");
+//        } else if(userinput.equals("Save")) {
+//        	 try {
+//                 wordsScanner = new Scanner("INPUT:"+ObjCode.getText().toString()+"\n OUTPUT:" + Outputtext.getText().toString());
+//                 final PrintWriter writer = new PrintWriter(new FileOutputStream("src/result.txt"));
+//                 while (wordsScanner.hasNextLine()) {
+//                     writer.println(wordsScanner.nextLine());
+//                 }
+//                 writer.close();
+//             } catch (final FileNotFoundException exception) {
+//                 System.out.println("Please check your words input file name \n" + exception);
+//             }
+//        }
+////		else if(userinput.equals("Start")||userinput.equals("Run CODE")||userinput.equals("Run")) {
+////        	firePropertyChange("Start", null, ObjCode.getText());
+//		//}
+//         else if(userinput.equals("New")) {
+////			ObjCode.setText("");
+//			Accumulatorout1.setText("");
+//			Accumulatorout2.setText("");
+//			Instructionout1.setText("");
+//			Operand1.setText("");
+//			Operand2.setText("");
+//			ProgramCounterout1.setText("");
+//			ProgramCounterout2.setText("");
+//			Memory.setText("");
+////			BatchIO.setText("");
+//			Outputtext.setText("");
+//			batchIndex = -1;
+//			setCbox(false);
+//			setNbox(false);
+//			setVbox(false);
+//			setZbox(false);
+//			firePropertyChange("New", null, null);
+//        }
+////		else if(userinput.equals("Cut Object Code")) {
+////       	ObjCode.cut();
+////        } else if(userinput.equals("Paste into Object Code")) {
+////        	ObjCode.paste();;
+////        }
+//	}
 
 	//Adding setters for textFields and adding getters for when input is needed.
 
@@ -719,17 +722,17 @@ public class GUI extends JFrame implements ActionListener {
 	 * This returns the characters stored in the BatchIO text area one character at a time.
 	 * @return The next character from batch input based upon how many times this function has been called.
 	 */
-	public char getBatchInput() {
-		batchIndex++;
-		return (BatchIO.getText()).charAt(batchIndex);
-	}
-
-	/*
-	*setBatchInput function for testing purposes only
-	 */
-	public void setBatchInput(String s) {
-		BatchIO.setText(s);
-	}
+//	public char getBatchInput() {
+//		batchIndex++;
+//		return (BatchIO.getText()).charAt(batchIndex);
+//	}
+//
+//	/*
+//	*setBatchInput function for testing purposes only
+//	 */
+//	public void setBatchInput(String s) {
+//		BatchIO.setText(s);
+//	}
 
 	public void setNbox(boolean b) {
 		Nbox.setSelected(b);
@@ -751,15 +754,15 @@ public class GUI extends JFrame implements ActionListener {
 	/*
 	New:
 	 */
-	public void setObjCode(String s) {
-		ObjCode.setText(s);
-	}
-	public String getObjCodeText() {
-		return ObjCode.getText();
-	}
-	public JTextArea getObjCode() {
-		return ObjCode;
-	}
+//	public void setObjCode(String s) {
+//		ObjCode.setText(s);
+//	}
+//	public String getObjCodeText() {
+//		return ObjCode.getText();
+//	}
+//	public JTextArea getObjCode() {
+//		return ObjCode;
+//	}
 	public Scanner getwordsScanner() {
 		return wordsScanner;
 	}
@@ -803,7 +806,7 @@ public class GUI extends JFrame implements ActionListener {
 	}
 
 	public void reset() {
-		ObjCode.setText("");
+//		ObjCode.setText("");
 		Accumulatorout1.setText("");
 		Accumulatorout2.setText("");
 		Instructionout1.setText("");
@@ -812,7 +815,7 @@ public class GUI extends JFrame implements ActionListener {
 		ProgramCounterout1.setText("");
 		ProgramCounterout2.setText("");
 		Memory.setText("");
-		BatchIO.setText("");
+//		BatchIO.setText("");
 		Outputtext.setText("");
 		batchIndex = -1;
 		setCbox(false);

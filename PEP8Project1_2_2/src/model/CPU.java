@@ -1,5 +1,6 @@
 package model;
 
+import controller.Pep8Sim;
 import view.GUI;
 
 import java.util.HashMap;
@@ -41,6 +42,8 @@ public class CPU {
 	 */
 	private GUI pep8View;
 
+	private Pep8Sim controller;
+
 	/**
 	 * Used to tell the cpu if it is the first instruction and it needs to reset the program counter.
 	 */
@@ -59,12 +62,13 @@ public class CPU {
 	/**
 	 * Initializes our CPU
 	 */
-	public CPU(GUI view) {
+	public CPU(GUI view, Pep8Sim ctlr) {
 		instrReg = new InstructionRegister();
 		progCounter = new ProgramCounter();
 		regA = new Register();
 		pep8View = view;
 		myALU = new ALU(pep8View);
+		controller = ctlr;
 		registerMap = Map.ofEntries(
                 Map.entry(RegName.A, regA),
                 Map.entry(RegName.PC, progCounter),
@@ -175,7 +179,7 @@ public class CPU {
 	private boolean execute(Memory m, MachineInstruction mi) {
 		boolean end = false;
 		try {
-			end = mi.execute(m, registerMap, myALU, pep8View);
+			end = mi.execute(m, registerMap, myALU, pep8View, controller);
 		} catch (Exception E) {
 			System.out.println("Error in Execution!");
 		}

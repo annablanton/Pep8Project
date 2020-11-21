@@ -1,5 +1,6 @@
 package model;
 
+import controller.Pep8Sim;
 import view.GUI;
 
 import java.util.Map;
@@ -9,12 +10,12 @@ public class CharInputInstruction extends MachineInstruction {
         super("01001", a);
     }
 
-    public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view) {
+    public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {
         InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
         ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
 
         loadInstrOperand(m, instrReg, progCounter);
-        byte scannedInput = (byte) view.getBatchInput();
+        byte scannedInput = (byte) controller.getBatchInput();
         if (getAddressingMode() == AddressingMode.IMMEDIATE) {
             throw new UnsupportedOperationException("Immediate addressing mode not supported by character input" +
                     "instruction");

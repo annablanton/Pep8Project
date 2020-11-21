@@ -1,5 +1,6 @@
 package model;
 
+import controller.Pep8Sim;
 import view.GUI;
 
 import java.util.Map;
@@ -42,7 +43,7 @@ public abstract class MachineInstruction {
         pc.offset((byte) 2);
     }
 
-    public abstract boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view);
+    public abstract boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller);
 
     /**
      * This is only here because Java does not support static abstract methods

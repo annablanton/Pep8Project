@@ -1,5 +1,6 @@
 package model;
 
+import controller.Pep8Sim;
 import view.GUI;
 
 /**
@@ -14,11 +15,13 @@ public class Machine {
 	private CPU cpu;
 	private Memory mem;
 	private final GUI pep8View;
+	private Pep8Sim controller;
 
-	public Machine(GUI view) {
-		cpu = new CPU(view);
+	public Machine(GUI view, Pep8Sim ctlr) {
+		cpu = new CPU(view, ctlr);
 		mem = new Memory();
 		pep8View = view;
+		controller = ctlr;
 	}
 	
 	public boolean fetchExecute() {
@@ -44,9 +47,10 @@ public class Machine {
 	 * Resets the machine by creating a new memory and cpu.
 	 */
 	public void reset() {
-		cpu = new CPU(pep8View);
+		cpu = new CPU(pep8View, controller);
 		mem = new Memory();
 		pep8View.reset();
+		controller.reset();
 	}
 
 }
