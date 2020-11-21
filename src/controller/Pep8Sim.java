@@ -224,6 +224,7 @@ public class Pep8Sim implements ActionListener {
 			}
 			String[] codeArray = code.split(" ");
 			byte[] byteArray = new byte[codeArray.length];
+			ObjCode.setText(code);
 			try {
 				int i = 0;
 //                    for (int i = 0; i < codeArray.length; i++) {

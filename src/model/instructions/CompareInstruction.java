@@ -1,6 +1,7 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;

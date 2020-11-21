@@ -1,13 +1,14 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;
 
-public class SubtractInstruction extends MachineInstruction {
-	public SubtractInstruction(AddressingMode a, RegName r) {
-		super("1000", a, r);
+public class AndInstruction extends MachineInstruction {
+	public AndInstruction(AddressingMode a, RegName r) {
+		super("1001", a, r);
 	}
 
 	public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {
@@ -17,15 +18,14 @@ public class SubtractInstruction extends MachineInstruction {
 
 		loadInstrOperand(m, instrReg, progCounter);
 		if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-			// System.out.println("a");
 			if (getRegName() == RegName.A) {
-				regA.load(alu.subtract(regA, instrReg.getReg()));
+				regA.load(alu.and(regA, instrReg.getReg()));
 			} else {
 				throw new UnsupportedOperationException("Index register not yet supported");
 			}
 		} else if (getAddressingMode() == AddressingMode.DIRECT) {
 			if (getRegName() == RegName.A) {
-				regA.load(alu.subtract(regA, m.getData(instrReg.getReg())));
+				regA.load(alu.and(regA, m.getData(instrReg.getReg())));
 			} else {
 				throw new UnsupportedOperationException("Index register not yet supported");
 			}
@@ -34,16 +34,18 @@ public class SubtractInstruction extends MachineInstruction {
 			short addr2 = m.getData(addr1);
 			short data = m.getData(addr2);
 			if (getRegName() == RegName.A) {
-				regA.load(alu.subtract(regA, data));
+				regA.load(alu.and(regA, data));
 			} else {
 				throw new UnsupportedOperationException("Index register not yet supported");
 			}
+		} else {
+			throw new UnsupportedOperationException("Addressing mode not supported");
 		}
 
 		return false;
 	}
 
 	public static String getIdentifier() {
-		return "1000";
+		return "1001";
 	}
 }

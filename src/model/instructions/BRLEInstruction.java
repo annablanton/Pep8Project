@@ -1,13 +1,14 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;
 
-public class BRLTInstruction extends MachineInstruction {
-	public BRLTInstruction(AddressingMode a) {
-		super("0000100", a);
+public class BRLEInstruction extends MachineInstruction {
+	public BRLEInstruction(AddressingMode a) {
+		super("0000011", a);
 	}
 
 	@Override
@@ -17,7 +18,7 @@ public class BRLTInstruction extends MachineInstruction {
 
 		loadInstrOperand(m, instrReg, progCounter);
 		if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-			if (alu.nFlagIsSet()) {
+			if (alu.nFlagIsSet() || alu.zFlagIsSet()) {
 				progCounter.load(instrReg.getReg());
 			}
 		} else {
@@ -27,6 +28,6 @@ public class BRLTInstruction extends MachineInstruction {
 	}
 
 	public static String getIdentifier() {
-		return "0000100";
+		return "0000011";
 	}
 }

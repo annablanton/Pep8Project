@@ -1,46 +1,36 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;
 
-public class StoreByteInstruction extends MachineInstruction {
-	public StoreByteInstruction(AddressingMode a, RegName r) {
-		super("1111", a, r);
+public class CharInputInstruction extends MachineInstruction {
+	public CharInputInstruction(AddressingMode a) {
+		super("01001", a);
 	}
 
 	public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {
 		InstructionRegister instrReg = (InstructionRegister) regMap.get(RegName.INSTRUCTION);
 		ProgramCounter progCounter = (ProgramCounter) regMap.get(RegName.PC);
-		Register regA = regMap.get(RegName.A);
 
 		loadInstrOperand(m, instrReg, progCounter);
+		byte scannedInput = (byte) controller.getBatchInput();
 		if (getAddressingMode() == AddressingMode.IMMEDIATE) {
 			throw new UnsupportedOperationException(
-					"Illegal operation (cannot use store instruction in immediate mode");
+					"Immediate addressing mode not supported by character input" + "instruction");
 		} else if (getAddressingMode() == AddressingMode.DIRECT) {
-			if (getRegName() == RegName.A) {
-				// System.out.println(instrReg.getReg());
-				m.storeByte(instrReg.getReg(), regA.getByte());
-			} else {
-				throw new UnsupportedOperationException("Index register not yet supported");
-			}
+			m.storeCharacter(instrReg.getReg(), scannedInput);
 		} else if (getAddressingMode() == AddressingMode.INDIRECT) {
 			short addr1 = instrReg.getReg();
 			short addr2 = m.getData(addr1);
-			if (getRegName() == RegName.A) {
-				m.storeByte(addr2, regA.getByte());
-			} else {
-				throw new UnsupportedOperationException("Index register not yet supported");
-			}
-
+			m.storeCharacter(addr2, scannedInput);
 		}
-
 		return false;
 	}
 
 	public static String getIdentifier() {
-		return "1111";
+		return "01001";
 	}
 }

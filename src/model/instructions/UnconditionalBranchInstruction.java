@@ -1,13 +1,14 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;
 
-public class BRGTInstruction extends MachineInstruction {
-	public BRGTInstruction(AddressingMode a) {
-		super("0001000", a);
+public class UnconditionalBranchInstruction extends MachineInstruction {
+	public UnconditionalBranchInstruction(AddressingMode a) {
+		super("0000010", a);
 	}
 
 	@Override
@@ -17,9 +18,7 @@ public class BRGTInstruction extends MachineInstruction {
 
 		loadInstrOperand(m, instrReg, progCounter);
 		if (getAddressingMode() == AddressingMode.IMMEDIATE) {
-			if (!alu.nFlagIsSet() && !alu.zFlagIsSet()) {
-				progCounter.load(instrReg.getReg());
-			}
+			progCounter.load(instrReg.getReg());
 		} else {
 			throw new UnsupportedOperationException("Unsupported addressing mode");
 		}
@@ -27,6 +26,6 @@ public class BRGTInstruction extends MachineInstruction {
 	}
 
 	public static String getIdentifier() {
-		return "0001000";
+		return "0000010";
 	}
 }

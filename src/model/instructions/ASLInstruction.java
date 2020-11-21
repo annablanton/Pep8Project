@@ -1,20 +1,21 @@
-package model;
+package model.instructions;
 
 import controller.Pep8Sim;
+import model.*;
 import view.GUI;
 
 import java.util.Map;
 
-public class RORInstruction extends MachineInstruction {
-	public RORInstruction(RegName r) {
-		super("0010001", r);
+public class ASLInstruction extends MachineInstruction {
+	public ASLInstruction(RegName r) {
+		super("0001110", r);
 	}
 
 	public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {
 		Register regA = regMap.get(RegName.A);
 
 		if (getRegName() == RegName.A) {
-			regA.load(alu.rotateRight(regA));
+			regA.load(alu.arithShiftLeft(regA));
 		} else {
 			throw new UnsupportedOperationException("Index register not currently supported");
 		}
@@ -22,6 +23,6 @@ public class RORInstruction extends MachineInstruction {
 	}
 
 	public static String getIdentifier() {
-		return "0010001";
+		return "0001110";
 	}
 }
