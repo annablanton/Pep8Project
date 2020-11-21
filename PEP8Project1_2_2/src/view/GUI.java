@@ -165,7 +165,7 @@ public class GUI extends JFrame {
 	private JCheckBox Zbox;
 	private JCheckBox Vbox;
 	private JCheckBox Cbox;
-	private int batchIndex = -1;
+//	private int batchIndex = -1;
 	/**
      * Main method to run CUI methods.
      * @author GROUP6 taehong Kim
@@ -789,7 +789,6 @@ public class GUI extends JFrame {
 	public void setMem(String s) { Memory.setText(s); }
 	//public void setBatchIO(String s) { BatchIO.setText(s); } Already have identical method above
 	public void clearOutputText() {Outputtext.setText(""); }
-	public void setBatchIndex() {batchIndex = -1; }
 
 	/**
 	 * Adds the specified character to the output text area.
@@ -817,7 +816,7 @@ public class GUI extends JFrame {
 		Memory.setText("");
 //		BatchIO.setText("");
 		Outputtext.setText("");
-		batchIndex = -1;
+//		batchIndex = -1;
 		setCbox(false);
 		setNbox(false);
 		setVbox(false);

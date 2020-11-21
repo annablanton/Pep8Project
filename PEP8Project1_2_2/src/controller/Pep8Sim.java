@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 /**
  * This class is designed to instantiate both the Machine and GUI and facilitate communication between them.
+ * Also contains buttons for GUI.
  * @author Group 6: Walter Kagel
  * @version 10/17/2020
  */
@@ -332,5 +333,12 @@ public class Pep8Sim implements ActionListener {
     public void reset() {
         ObjCode.setText("");
         BatchIO.setText("");
+        sourceTab.setText("");
+        AsListing.setText("");
+        Terminal.setText("");
+        batchIndex = -1;
+        traceTab.setText("");
     }
+
+    public void setBatchIndex() {batchIndex = -1; }
 }
