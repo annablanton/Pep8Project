@@ -46,6 +46,7 @@ public class Machine {
 	public void reset() {
 		cpu = new CPU(pep8View);
 		mem = new Memory();
+		pep8View.reset();
 	}
 
 }

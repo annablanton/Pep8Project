@@ -764,4 +764,22 @@ public class GUI extends JFrame implements ActionListener {
 		return Outputtext.getText();
 	}
 
+	public void reset() {
+		ObjCode.setText("");
+		Accumulatorout1.setText("");
+		Accumulatorout2.setText("");
+		Instructionout1.setText("");
+		Operand1.setText("");
+		Operand2.setText("");
+		ProgramCounterout1.setText("");
+		ProgramCounterout2.setText("");
+		Memory.setText("");
+		BatchIO.setText("");
+		Outputtext.setText("");
+		batchIndex = -1;
+		setCbox(false);
+		setNbox(false);
+		setVbox(false);
+		setZbox(false);
+	}
 }
