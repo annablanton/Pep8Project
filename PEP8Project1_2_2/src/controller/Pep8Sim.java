@@ -205,8 +205,13 @@ public class Pep8Sim implements ActionListener {
                 String[] codeArray = code.split(" ");
                 byte[] byteArray = new byte[codeArray.length];
                 try {
-                    for (int i = 0; i < codeArray.length; i++) {
+                    int i = 0;
+//                    for (int i = 0; i < codeArray.length; i++) {
+//                        byteArray[i] = (byte) (Integer.parseUnsignedInt(codeArray[i], 16));
+//                    }
+                    while (i < codeArray.length && !codeArray[i].equals("zz")) {
                         byteArray[i] = (byte) (Integer.parseUnsignedInt(codeArray[i], 16));
+                        i++;
                     }
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(myPep8View, "Error in loading Object Code.");
