@@ -219,7 +219,10 @@ public class Pep8Sim implements ActionListener {
 			String [] sourceCode = sourceTab.getText().split("\\r?\\n");
 			String code = "";
 			try {
-				code = dec.format(dec.assemblyToHex(sourceCode));
+				System.out.println(Arrays.deepToString(sourceCode));
+				String unformattedCode = dec.assemblyToHex(sourceCode);
+				System.out.println(unformattedCode);
+				code = dec.format(unformattedCode);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
