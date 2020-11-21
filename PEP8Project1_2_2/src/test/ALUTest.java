@@ -7,6 +7,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import view.GUI;
 
+import javax.swing.*;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -22,7 +24,7 @@ public class ALUTest {
 
     @Before
     public void setUp() {
-        view = new GUI();
+        view = new GUI(new JPanel());
         alu = new ALU(view);
         r = new Register();
     }

@@ -50,8 +50,6 @@ public class GUI extends JFrame implements ActionListener {
 	private JTextArea ObjCode;
 	/**Setting Main frame.**/
 	private JFrame frame = new JFrame();
-	/**Setting up-Panel.**/
-	private JPanel upPanel = new JPanel();
 	/**Setting Line Start Panel.**/
 	private JPanel lineStartPanel = new JPanel();
 	/**Setting Center main Panel.**/
@@ -173,14 +171,14 @@ public class GUI extends JFrame implements ActionListener {
      * @author GROUP6 taehong Kim
      * @version 10/18/2020
      */
-	public static void main(String []args) {
-		new GUI();
-	}
+//	public static void main(String []args) {
+//		new GUI();
+//	}
 	
     /**
      * Constructor Virtual simulator GUI with frame. 
      */
-	public GUI() {
+	public GUI(JPanel upPanel) {
 		frame = new JFrame("Virtual Simulator");	
 		frame.setSize(screenSize.width*3/4,screenSize.height*3/4); // frame size
 		frame.setVisible(true);
@@ -191,7 +189,6 @@ public class GUI extends JFrame implements ActionListener {
 		});	
 		MenuBar();
 		frame.setJMenuBar(menuBar);
-		UpPanel();
 		frame.getContentPane().add(upPanel, BorderLayout.PAGE_START);
 		LineStartPanel();
 		frame.getContentPane().add(lineStartPanel, BorderLayout.LINE_START);
@@ -206,58 +203,58 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Constructor Up-Panel with buttons.
 	 */
-	private void UpPanel() {
-		/*setting main UpPanel*/
-		upPanel = new JPanel();
-		upPanel.setLayout(new GridLayout(1,9));
-		upPanel.setPreferredSize(new Dimension (screenSize.width*3/4,screenSize.height*3/50));
-		/*setting buttons on main upPanel*/
-		final JButton newButton = new JButton("New");
-		newButton.setFont(myFont);
-		newButton.addActionListener(this);
-		newButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-	
-		JButton startButton = new JButton("Start");
-		startButton.setFont(myFont);
-		startButton.addActionListener(this);
-		startButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-
-		JButton saveButton = new JButton("Save");
-		saveButton.addActionListener(this);
-		saveButton.setFont(myFont);
-		saveButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-		
-		JButton runCodeButton = new JButton("Run CODE");
-		runCodeButton.addActionListener(this);
-		runCodeButton.setFont(myFont);
-		runCodeButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-
-		JButton unDoButton = new JButton("Undo");
-		unDoButton.setFont(myFont);
-		unDoButton.setEnabled(false);
-		unDoButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-
-		JButton reDoButton = new JButton("Redo");
-		reDoButton.setFont(myFont);
-		reDoButton.setEnabled(false);
-		reDoButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-		
-		/*Setting empty panels to fill empty areas of upPanel*/
-		JPanel emptyPanel = new JPanel();
-		emptyPanel.setLayout(new GridLayout(1,1));
-		emptyPanel.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-		JPanel emptyPanel2 = new JPanel();
-		emptyPanel2.setLayout(new GridLayout(1,1));
-		emptyPanel2.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));		
-		JPanel emptyPanel3 = new JPanel();
-		emptyPanel3.setLayout(new GridLayout(1,1));
-		emptyPanel3.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
-		
-		/*Adding whole buttons in UpPanel*/
-		upPanel.add(newButton);upPanel.add(startButton);upPanel.add(saveButton);
-		upPanel.add(runCodeButton);upPanel.add(unDoButton);upPanel.add(reDoButton);
-		upPanel.add(emptyPanel);upPanel.add(emptyPanel2);upPanel.add(emptyPanel3);
-	}
+//	private void UpPanel() {
+//		/*setting main UpPanel*/
+//		upPanel = new JPanel();
+//		upPanel.setLayout(new GridLayout(1,9));
+//		upPanel.setPreferredSize(new Dimension (screenSize.width*3/4,screenSize.height*3/50));
+//		/*setting buttons on main upPanel*/
+//		final JButton newButton = new JButton("New");
+//		newButton.setFont(myFont);
+//		newButton.addActionListener(this);
+//		newButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		JButton startButton = new JButton("Start");
+//		startButton.setFont(myFont);
+//		startButton.addActionListener(this);
+//		startButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		JButton saveButton = new JButton("Save");
+//		saveButton.addActionListener(this);
+//		saveButton.setFont(myFont);
+//		saveButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		JButton runCodeButton = new JButton("Run CODE");
+//		runCodeButton.addActionListener(this);
+//		runCodeButton.setFont(myFont);
+//		runCodeButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		JButton unDoButton = new JButton("Undo");
+//		unDoButton.setFont(myFont);
+//		unDoButton.setEnabled(false);
+//		unDoButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		JButton reDoButton = new JButton("Redo");
+//		reDoButton.setFont(myFont);
+//		reDoButton.setEnabled(false);
+//		reDoButton.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		/*Setting empty panels to fill empty areas of upPanel*/
+//		JPanel emptyPanel = new JPanel();
+//		emptyPanel.setLayout(new GridLayout(1,1));
+//		emptyPanel.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//		JPanel emptyPanel2 = new JPanel();
+//		emptyPanel2.setLayout(new GridLayout(1,1));
+//		emptyPanel2.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//		JPanel emptyPanel3 = new JPanel();
+//		emptyPanel3.setLayout(new GridLayout(1,1));
+//		emptyPanel3.setPreferredSize(new Dimension (screenSize.width/12,screenSize.height*3/50));
+//
+//		/*Adding whole buttons in UpPanel*/
+//		upPanel.add(newButton);upPanel.add(startButton);upPanel.add(saveButton);
+//		upPanel.add(runCodeButton);upPanel.add(unDoButton);upPanel.add(reDoButton);
+//		upPanel.add(emptyPanel);upPanel.add(emptyPanel2);upPanel.add(emptyPanel3);
+//	}
 	
 	/**
 	 * Constructor for line start Panel with components small panels.

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import view.GUI;
 
+import javax.swing.*;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -17,7 +18,7 @@ public class CPUTest {
 
     @Before
     public void setUp() {
-        GUI gui = new GUI();
+        GUI gui = new GUI(new JPanel());
         cpu = new CPU(gui);
         m = new Memory();
     }

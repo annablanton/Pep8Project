@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import view.GUI;
 
+import javax.swing.*;
+
 import static org.junit.Assert.assertEquals;
 
 public class MachineTest {
@@ -13,7 +15,7 @@ public class MachineTest {
 
     @Before
     public void setUp() {
-        gui = new GUI();
+        gui = new GUI(new JPanel());
         m = new Machine(gui);
     }
 

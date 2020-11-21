@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import view.GUI;
 
+import javax.swing.*;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -32,7 +33,7 @@ public class InstructionTest {
         ir = new InstructionRegister();
         regA = new Register();
         regA.load(REG_VAL);
-        gui = new GUI();
+        gui = new GUI(new JPanel());
         alu = new ALU(gui);
         rm = Map.ofEntries(
                 Map.entry(RegName.PC, pc),
