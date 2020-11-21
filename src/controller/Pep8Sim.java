@@ -59,7 +59,6 @@ public class Pep8Sim implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		Pep8Sim p = new Pep8Sim();
-		Decode dec = new Decode();
 		myPep8View = new GUI(p.getUpPanel(), p.getLineStartPanel(), p.getBatchIO(), p.getMenuBar());
 		myMachine = new Machine(myPep8View, p);
 		// Use a listener to tell when someone presses start, read in code, store it to
@@ -102,11 +101,10 @@ public class Pep8Sim implements ActionListener {
 		UpPanel();
 		lineStartPanel();
 		BatchIO();
+		dec = new Decode();
 	}
 
-	/**
-	 * This is only public for testing purposes
-	 */
+
 	private void UpPanel() {
 		/* setting main UpPanel */
 		upPanel = new JPanel();
