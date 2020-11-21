@@ -14,7 +14,7 @@ public class Decode {
 			if (code == null || code.equals("")) {
 				sourceCode.remove(code);
 			}
-			if (code.startsWith(";")) {
+			else if (code.startsWith(";")) {
 				sourceCode.remove(code);
 			}
 		}
