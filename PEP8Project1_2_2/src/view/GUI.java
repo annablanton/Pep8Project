@@ -750,6 +750,47 @@ public class GUI extends JFrame implements ActionListener {
 		Cbox.setSelected(b);
 	}
 
+
+	/*
+	New:
+	 */
+	public void setObjCode(String s) {
+		ObjCode.setText(s);
+	}
+	public String getObjCodeText() {
+		return ObjCode.getText();
+	}
+	public JTextArea getObjCode() {
+		return ObjCode;
+	}
+	public Scanner getwordsScanner() {
+		return wordsScanner;
+	}
+	public void setWordsScanner(Scanner scanner) { wordsScanner = scanner; }
+	public void setAccum1(String s) { Accumulatorout1.setText(s); }
+	public void setAccum2(String s) {
+		Accumulatorout2.setText(s);
+	}
+	public void setInstrOut(String s) {
+		Instructionout1.setText(s);
+	}
+	public void setOp1(String s) {
+		Operand1.setText(s);
+	}
+	public void setOp2(String s) {
+		Operand2.setText(s);
+	}
+	public void setProgOut1(String s) {
+		ProgramCounterout1.setText(s);
+	}
+	public void setProgOut2(String s) {
+		ProgramCounterout2.setText(s);
+	}
+	public void setMem(String s) { Memory.setText(s); }
+	//public void setBatchIO(String s) { BatchIO.setText(s); } Already have identical method above
+	public void clearOutputText() {Outputtext.setText(""); }
+	public void setBatchIndex() {batchIndex = -1; }
+
 	/**
 	 * Adds the specified character to the output text area.
 	 * @param c
