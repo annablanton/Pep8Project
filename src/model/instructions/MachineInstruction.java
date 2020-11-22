@@ -9,7 +9,7 @@ import java.util.Map;
 public abstract class MachineInstruction {
 	private AddressingMode addressingMode;
 	private RegName regName;
-	String instrString;
+	private String instrString;
 
 	public MachineInstruction(String is) {
 		instrString = is;

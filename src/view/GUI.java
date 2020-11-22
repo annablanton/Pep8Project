@@ -46,46 +46,28 @@ public class GUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	/** Setting Object code text area. **/
 //	private JTextArea ObjCode;
-	/** Setting Main frame. **/
-	private JFrame frame = new JFrame();
 	/** Setting Line Start Panel. **/
 //	private JPanel lineStartPanel = new JPanel();
 	/** Setting Center main Panel. **/
 	private JPanel CenterPanel;
 	/** Setting font type for titles. **/
-	private Font myFont = new Font("Plain", Font.BOLD, 17);
+	private final Font myFont = new Font("Plain", Font.BOLD, 17);
 	/** Setting font types for inside of text area. **/
-	private Font myFont2 = new Font("Plain", Font.CENTER_BASELINE, 9);
+	private final Font myFont2 = new Font("Plain", Font.CENTER_BASELINE, 9);
 	/** Setting CPU panel. **/
 	private JPanel CpuPanel;
 	/** Setting top of CPU panel. **/
 	private JPanel CpupanelTop;
-	/** Setting N check button. **/
-	private JLabel Nmark;
-	/** Setting Z check button. **/
-	private JLabel Zmark;
-	/** Setting V check button. **/
-	private JLabel Vmark;
-	/** Setting C check button. **/
-	private JLabel Cmark;
-	/** Setting Accumulator label. **/
-	private JLabel Accumulator;
 	/** Setting Accumulator text area. **/
 	private JTextField Accumulatorout1;
 	/** Setting Accumulator second text area. **/
 	private JTextField Accumulatorout2;
-	/** Setting Program Counter Label. **/
-	private JLabel ProgramCounter;
 	/** Setting program counter text area. **/
 	private JTextField ProgramCounterout1;
 	/** Setting program counter text second area. **/
 	private JTextField ProgramCounterout2;
-	/** Setting Instruction Label. **/
-	private JLabel Instruction;
 	/** Setting Instruction text area. **/
 	private JTextField Instructionout1;
-	/** Setting Instruction text second area. **/
-	private JTextField Instructionout2;
 	/** Setting Tabbed panel for batch and terminal. **/
 //	private JTabbedPane tabbedPane2;
 	/** Setting Batch IO text area. **/
@@ -98,66 +80,34 @@ public class GUI extends JFrame {
 	private JPanel LineEndPanel;
 	/** Setting Memory Panel. **/
 	private JTextArea Memory;
-	/** Setting Scroll for memory panel. **/
-	private JScrollPane scroll;
 	/** Setting main Menu bar. **/
 //	private JMenuBar menuBar;
 	/** Setting sub-menw for new button. **/
 	private JMenuItem newMenu;
-	/** Setting File menu. **/
-//	private JMenu File;
-	/** Setting edit menu. **/
-//	private JMenu Edit;
-	/** Setting cut sub-menu. **/
-//	private JMenuItem cutMenu;
-	/** Setting paste sub-menu. **/
-//	private JMenuItem pasteMenu;
-	/** Setting Build menu. **/
-//	private JMenu Build;
-	/** Setting Load menu. **/
-//	private JMenuItem loadMenu;
-	/** Setting Run menu **/
-//	private JMenuItem runMenu;
-	/** Setting open sub-menu. **/
-//	private JMenuItem openMenu;
+	//	private JMenu File;
+	//	private JMenu Edit;
+	//	private JMenuItem cutMenu;
+	//	private JMenuItem pasteMenu;
+	//	private JMenu Build;
+	//	private JMenuItem loadMenu;
+	//	private JMenuItem runMenu;
+	//	private JMenuItem openMenu;
 	/** Setting tab panel. **/
 	private JTabbedPane tabbedPane;
 	/** Setting source code tab with text area. **/
 	private JTextArea sourceTab;
-	/** Setting trace tab with text area. **/
-//	private JTextArea traceTab;
-	/** Setting Text area for Aslisting. **/
-//	private JTextArea AsListing;
+	//	private JTextArea traceTab;
+	//	private JTextArea AsListing;
 	/** Setting down of cpu panel. **/
 	private JPanel Cpupaneldown;
-	/** Setting Stack pointer labels. **/
-	private JLabel StackPointer;
-	/** Setting Stack pointer text areas1. **/
-	private JTextField StackPointer1;
-	/** Setting Stack pointer text areas1. **/
-	private JTextField StackPointer2;
-	/** Setting Index Register Label. **/
-	private JLabel IndexRegister;
-	/** Setting Index Register text areas1. **/
-	private JTextField IndexRegister1;
-	/** Setting Index Register text areas2. **/
-	private JTextField IndexRegister2;
-	/** Setting Operand label. **/
-	private JLabel Operand;
 	/** Setting Operand text field1. **/
 	private JTextField Operand1;
 	/** Setting Operand text field2. **/
 	private JTextField Operand2;
-	/** Setting Operand specifier label. **/
-	private JLabel OperandSpecifier;
-	/** Setting Operand specifier text field1. **/
-	private JTextField OperandSpecifier1;
-	/** Setting Operand specifier text field2. **/
-	private JTextField OperandSpecifier2;
 	/** Setting words scanner to scanner result. **/
 	private Scanner wordsScanner;
 	/** Setting screensize to calculate size of application **/
-	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	/** Tells which character of BatchIO to send **/
 	private JCheckBox Nbox;
 	private JCheckBox Zbox;
@@ -178,7 +128,8 @@ public class GUI extends JFrame {
 	 * Constructor Virtual simulator GUI with frame.
 	 */
 	public GUI(JPanel upPanel, JPanel lineStartPanel, JTabbedPane tabbedPane2, JMenuBar menuBar) {
-		frame = new JFrame("Virtual Simulator");
+		/** Setting Main frame. **/
+		JFrame frame = new JFrame("Virtual Simulator");
 		frame.setSize(screenSize.width * 3 / 4, screenSize.height * 3 / 4); // frame size
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
@@ -329,40 +280,44 @@ public class GUI extends JFrame {
 	 */
 	private void CpuChecker() {
 		/* adding check box with labels N. */
-		Nmark = new JLabel("N");
-		Nmark.setFont(myFont);
-		Nmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
-		CpupanelTop.add(Nmark);
+		/** Setting N check button. **/
+		JLabel nmark = new JLabel("N");
+		nmark.setFont(myFont);
+		nmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
+		CpupanelTop.add(nmark);
 		Nbox = new JCheckBox();
 		Nbox.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
 		Nbox.setEnabled(false);
 		CpupanelTop.add(Nbox);
 
 		/* adding check box with labels Z. */
-		Zmark = new JLabel("Z");
-		Zmark.setFont(myFont);
-		Zmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
-		CpupanelTop.add(Zmark);
+		/** Setting Z check button. **/
+		JLabel zmark = new JLabel("Z");
+		zmark.setFont(myFont);
+		zmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
+		CpupanelTop.add(zmark);
 		Zbox = new JCheckBox();
 		Zbox.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
 		Zbox.setEnabled(false);
 		CpupanelTop.add(Zbox);
 
 		/* adding check box with labels V. */
-		Vmark = new JLabel("V");
-		Vmark.setFont(myFont);
-		Vmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
-		CpupanelTop.add(Vmark);
+		/** Setting V check button. **/
+		JLabel vmark = new JLabel("V");
+		vmark.setFont(myFont);
+		vmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
+		CpupanelTop.add(vmark);
 		Vbox = new JCheckBox();
 		Vbox.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
 		Vbox.setEnabled(false);
 		CpupanelTop.add(Vbox);
 
 		/* adding check box with labels C. */
-		Cmark = new JLabel("C");
-		Cmark.setFont(myFont);
-		Cmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
-		CpupanelTop.add(Cmark);
+		/** Setting C check button. **/
+		JLabel cmark = new JLabel("C");
+		cmark.setFont(myFont);
+		cmark.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
+		CpupanelTop.add(cmark);
 		Cbox = new JCheckBox();
 		Cbox.setSize(new Dimension(screenSize.width * 1 / 112, screenSize.height * 1 / 112));
 		Cbox.setEnabled(false);
@@ -385,10 +340,11 @@ public class GUI extends JFrame {
 	 * Constructor for Accumulator labels, text areas.
 	 */
 	private void AccumulatorPanel() {
-		Accumulator = new JLabel("Accumulator");
-		Accumulator.setFont(myFont2);
-		Accumulator.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(Accumulator);
+		/** Setting Accumulator label. **/
+		JLabel accumulator = new JLabel("Accumulator");
+		accumulator.setFont(myFont2);
+		accumulator.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(accumulator);
 		Accumulatorout1 = new JTextField();
 		Accumulatorout1.setEditable(false);
 		Accumulatorout1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
@@ -405,10 +361,11 @@ public class GUI extends JFrame {
 	 * Constructor for ProgramCounter labels, text areas.
 	 */
 	private void ProgramCounterPanel() {
-		ProgramCounter = new JLabel("ProgramCounter");
-		ProgramCounter.setFont(myFont2);
-		ProgramCounter.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(ProgramCounter);
+		/** Setting Program Counter Label. **/
+		JLabel programCounter = new JLabel("ProgramCounter");
+		programCounter.setFont(myFont2);
+		programCounter.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(programCounter);
 		ProgramCounterout1 = new JTextField();
 		ProgramCounterout1.setEditable(false);
 		ProgramCounterout1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
@@ -425,50 +382,57 @@ public class GUI extends JFrame {
 	 * Constructor for StackPointer labels, text areas.
 	 */
 	private void StackPointer() {
-		StackPointer = new JLabel("StackPointer");
-		StackPointer.setFont(myFont2);
-		StackPointer.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(StackPointer);
-		StackPointer1 = new JTextField();
-		StackPointer1.setEditable(false);
-		StackPointer1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		StackPointer1.setFont(myFont2);
-		Cpupaneldown.add(StackPointer1);
-		StackPointer2 = new JTextField();
-		StackPointer2.setEditable(false);
-		StackPointer2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		StackPointer2.setFont(myFont2);
-		Cpupaneldown.add(StackPointer2);
+		/** Setting Stack pointer labels. **/
+		JLabel stackPointer = new JLabel("StackPointer");
+		stackPointer.setFont(myFont2);
+		stackPointer.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(stackPointer);
+		/** Setting Stack pointer text areas1. **/
+		JTextField stackPointer1 = new JTextField();
+		stackPointer1.setEditable(false);
+		stackPointer1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		stackPointer1.setFont(myFont2);
+		Cpupaneldown.add(stackPointer1);
+		/** Setting Stack pointer text areas1. **/
+		JTextField stackPointer2 = new JTextField();
+		stackPointer2.setEditable(false);
+		stackPointer2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		stackPointer2.setFont(myFont2);
+		Cpupaneldown.add(stackPointer2);
 	}
 
 	/**
 	 * Constructor for Index register labels, text areas.
 	 */
 	private void IndexRegister() {
-		IndexRegister = new JLabel("IndexRegister");
-		IndexRegister.setFont(myFont2);
-		IndexRegister.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(IndexRegister);
-		IndexRegister1 = new JTextField();
-		IndexRegister1.setEditable(false);
-		IndexRegister1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		IndexRegister1.setFont(myFont2);
-		Cpupaneldown.add(IndexRegister1);
-		IndexRegister2 = new JTextField();
-		IndexRegister2.setEditable(false);
-		IndexRegister2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		IndexRegister2.setFont(myFont2);
-		Cpupaneldown.add(IndexRegister2);
+		/** Setting Index Register Label. **/
+		JLabel indexRegister = new JLabel("IndexRegister");
+		indexRegister.setFont(myFont2);
+		indexRegister.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(indexRegister);
+		/** Setting Index Register text areas1. **/
+		JTextField indexRegister1 = new JTextField();
+		indexRegister1.setEditable(false);
+		indexRegister1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		indexRegister1.setFont(myFont2);
+		Cpupaneldown.add(indexRegister1);
+		/** Setting Index Register text areas2. **/
+		JTextField indexRegister2 = new JTextField();
+		indexRegister2.setEditable(false);
+		indexRegister2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		indexRegister2.setFont(myFont2);
+		Cpupaneldown.add(indexRegister2);
 	}
 
 	/**
 	 * Constructor for Operand labels, text areas.
 	 */
 	private void Operand() {
-		Operand = new JLabel("(Operand)");
-		Operand.setFont(myFont2);
-		Operand.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(Operand);
+		/** Setting Operand label. **/
+		JLabel operand = new JLabel("(Operand)");
+		operand.setFont(myFont2);
+		operand.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(operand);
 		Operand1 = new JTextField();
 		Operand1.setEditable(false);
 		Operand1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
@@ -485,39 +449,44 @@ public class GUI extends JFrame {
 	 * Constructor for Operand specifier labels, text areas.
 	 */
 	private void OperandSpecifier() {
-		OperandSpecifier = new JLabel("Operand Specifier");
-		OperandSpecifier.setFont(myFont2);
-		OperandSpecifier.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(OperandSpecifier);
-		OperandSpecifier1 = new JTextField();
-		OperandSpecifier1.setEditable(false);
-		OperandSpecifier1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		OperandSpecifier1.setFont(myFont2);
-		Cpupaneldown.add(OperandSpecifier1);
-		OperandSpecifier2 = new JTextField();
-		OperandSpecifier2.setEditable(false);
-		OperandSpecifier2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		OperandSpecifier2.setFont(myFont2);
-		Cpupaneldown.add(OperandSpecifier2);
+		/** Setting Operand specifier label. **/
+		JLabel operandSpecifier = new JLabel("Operand Specifier");
+		operandSpecifier.setFont(myFont2);
+		operandSpecifier.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(operandSpecifier);
+		/** Setting Operand specifier text field1. **/
+		JTextField operandSpecifier1 = new JTextField();
+		operandSpecifier1.setEditable(false);
+		operandSpecifier1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		operandSpecifier1.setFont(myFont2);
+		Cpupaneldown.add(operandSpecifier1);
+		/** Setting Operand specifier text field2. **/
+		JTextField operandSpecifier2 = new JTextField();
+		operandSpecifier2.setEditable(false);
+		operandSpecifier2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		operandSpecifier2.setFont(myFont2);
+		Cpupaneldown.add(operandSpecifier2);
 	}
 
 	/**
 	 * Constructor for InstructionPanel labels, text areas.
 	 */
 	private void InstructionPanel() {
-		Instruction = new JLabel("Instruction Specifier");
-		Instruction.setFont(myFont2);
-		Instruction.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(Instruction);
+		/** Setting Instruction Label. **/
+		JLabel instruction = new JLabel("Instruction Specifier");
+		instruction.setFont(myFont2);
+		instruction.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(instruction);
 		Instructionout1 = new JTextField();
 		Instructionout1.setEditable(false);
 		Instructionout1.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
 		Instructionout1.setFont(myFont2);
 		Cpupaneldown.add(Instructionout1);
-		Instructionout2 = new JTextField();
-		Instructionout2.setEditable(false);
-		Instructionout2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
-		Cpupaneldown.add(Instructionout2);
+		/** Setting Instruction text second area. **/
+		JTextField instructionout2 = new JTextField();
+		instructionout2.setEditable(false);
+		instructionout2.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 112));
+		Cpupaneldown.add(instructionout2);
 		CpuPanel.add(Cpupaneldown);
 		CenterPanel.add(CpuPanel, BorderLayout.SOUTH);
 	}
@@ -553,7 +522,8 @@ public class GUI extends JFrame {
 		Memory = new JTextArea(null, screenSize.width / 4, screenSize.height * 9 / 14);
 		Memory.setFont(myFont);
 		Memory.setEditable(false);
-		scroll = new JScrollPane(Memory);
+		/** Setting Scroll for memory panel. **/
+		JScrollPane scroll = new JScrollPane(Memory);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		Memory.setBorder(new TitledBorder(null, null, TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
 		LineEndPanel.add(scroll);

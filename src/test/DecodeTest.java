@@ -447,236 +447,146 @@ public class DecodeTest {
 	}
 
 	@Test(expected = Exception.class)
-	public void testBRCFail() {
+	public void testBRCFail() throws Exception {
 		String[] ins = new String[] { "BRC" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("15000D14000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("15000D14000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testNOTAFail() {
+	public void testNOTAFail() throws Exception {
 		String[] ins = new String[] { "NOTA	0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("18", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("18", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testNEGAFail() {
+	public void testNEGAFail() throws Exception {
 		String[] ins = new String[] { "NEGA	0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("1A", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("1A", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testASLAFail() {
+	public void testASLAFail() throws Exception {
 		String[] ins = new String[] { "ASLA 0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("1C", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("1C", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testASRAFail() {
+	public void testASRAFail() throws Exception {
 		String[] ins = new String[] { "ASRA	0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("1E", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("1E", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testROLAFail() {
+	public void testROLAFail() throws Exception {
 		String[] ins = new String[] { "ROLA	0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("20", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("20", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testRORAFail() {
+	public void testRORAFail() throws Exception {
 		String[] ins = new String[] { "RORA 0x000D, i" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("22", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("22", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testCHARIFail() {
+	public void testCHARIFail() throws Exception {
 		String[] ins = new String[] { "CHARI" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("48000D49000D4A000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("48000D49000D4A000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testCHAROFail() {
+	public void testCHAROFail() throws Exception {
 		String[] ins = new String[] { "CHARO" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("50000D51000D52000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("50000D51000D52000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testADDAFail() {
+	public void testADDAFail() throws Exception {
 		String[] ins = new String[] { "ADDA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("70000D71000D72000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("70000D71000D72000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testSUBAFail() {
+	public void testSUBAFail() throws Exception {
 		String[] ins = new String[] { "SUBA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("80000D81000D82000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("80000D81000D82000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testANDAFail() {
+	public void testANDAFail() throws Exception {
 		String[] ins = new String[] { "ANDA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("90000D91000D92000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("90000D91000D92000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testORAFail() {
+	public void testORAFail() throws Exception {
 		String[] ins = new String[] { "ORA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("A0000DA1000DA2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("A0000DA1000DA2000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testCPAFail() {
+	public void testCPAFail() throws Exception {
 		String[] ins = new String[] { "CPA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("B0000DB1000DB2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("B0000DB1000DB2000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testLDAFail() {
+	public void testLDAFail() throws Exception {
 		String[] ins = new String[] { "LDA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("C0000DC1000DC2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("C0000DC1000DC2000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testLDBYTEAFail() {
+	public void testLDBYTEAFail() throws Exception {
 		String[] ins = new String[] { "LDBYTEA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("D0000DD1000DD2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("D0000DD1000DD2000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testSTAFail() {
+	public void testSTAFail() throws Exception {
 		String[] ins = new String[] { "STA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("E0000DE1000DE2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("E0000DE1000DE2000D", ans);
 	}
 
 	@Test(expected = Exception.class)
-	public void testSTBYTEAFail() {
+	public void testSTBYTEAFail() throws Exception {
 		String[] ins = new String[] { "STBYTEA" };
 		String ans;
-		try {
-			ans = dec.assemblyToHex(ins);
-			assertEquals("F0000DF1000DF2000D", ans);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ans = dec.assemblyToHex(ins);
+		assertEquals("F0000DF1000DF2000D", ans);
 	}
 }

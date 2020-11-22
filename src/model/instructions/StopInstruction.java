@@ -3,7 +3,6 @@ package model.instructions;
 import controller.Pep8Sim;
 import model.ALU;
 import model.Memory;
-import model.RegName;
 import model.Register;
 import view.GUI;
 
