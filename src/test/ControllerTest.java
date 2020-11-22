@@ -9,6 +9,8 @@ import view.GUI;
 
 import javax.swing.*;
 
+import java.awt.event.ActionEvent;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -26,7 +28,7 @@ public class ControllerTest {
 	@Before
 	public void setUp() {
 		view = new GUI(new JPanel(), new JPanel(), new JTabbedPane(), new JMenuBar());
-		Pep8Sim p = new Pep8Sim();
+		p = new Pep8Sim();
 
 
 	} //Do I need any setup for static void?
@@ -35,5 +37,18 @@ public class ControllerTest {
 	public void testMain() {
 		Pep8Sim.main(new String[]{});
 	}
+
+	@Test
+	public void testSetBatchInput() {
+		p.setBatchInput("abc");
+		assertEquals('a', p.getBatchInput());
+	}
+
+	@Test
+	public void testReset() {
+		p.reset();
+	}
+
+
 
 }
