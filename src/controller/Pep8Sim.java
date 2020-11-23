@@ -232,7 +232,7 @@ public class Pep8Sim implements ActionListener {
 			}
 			myMachine.store((short) 0, byteArray);
 			myMachine.run();
-		} else if (userinput.equals("Run Object Code")) {
+		} else if (userinput.equals("Run Obj Code")) {
 			String[] codeArray = ObjCode.getText().split(" ");
 			byte[] byteArray = new byte[codeArray.length];
 			try {
