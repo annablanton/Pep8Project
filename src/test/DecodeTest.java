@@ -452,7 +452,10 @@ public class DecodeTest {
 		String ans;
 		ans = dec.assemblyToHex(ins);
 		assertEquals("15000D14000D", ans);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f4564cffa096e879e768bfc54eb8b912c16ec7d7
 	}
 
 	@Test(expected = Exception.class)
@@ -461,7 +464,10 @@ public class DecodeTest {
 		String ans;
 		ans = dec.assemblyToHex(ins);
 		assertEquals("18", ans);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f4564cffa096e879e768bfc54eb8b912c16ec7d7
 	}
 
 	@Test(expected = Exception.class)

@@ -90,6 +90,7 @@ public class Pep8Sim implements ActionListener {
 		UpPanel();
 		lineStartPanel();
 		BatchIO();
+		MenuBar();
 		dec = new Decode();
 	}
 
@@ -105,7 +106,7 @@ public class Pep8Sim implements ActionListener {
 		newButton.addActionListener(this);
 		newButton.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 50));
 
-		JButton startButton = new JButton("Start");
+		JButton startButton = new JButton("Run Obj Code");
 		startButton.setFont(myFont);
 		startButton.addActionListener(this);
 		startButton.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 50));
@@ -115,7 +116,7 @@ public class Pep8Sim implements ActionListener {
 		saveButton.setFont(myFont);
 		saveButton.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 50));
 
-		JButton runCodeButton = new JButton("Run CODE");
+		JButton runCodeButton = new JButton("Run Assembly");
 		runCodeButton.addActionListener(this);
 		runCodeButton.setFont(myFont);
 		runCodeButton.setPreferredSize(new Dimension(screenSize.width / 12, screenSize.height * 3 / 50));
@@ -202,7 +203,7 @@ public class Pep8Sim implements ActionListener {
 			} catch (final FileNotFoundException exception) {
 				System.out.println("Please check your words input file name \n" + exception);
 			}
-		} else if (userinput.equals("Start") || userinput.equals("Run CODE") || userinput.equals("Run")) {
+		} else if (userinput.equals("Run Assembly") || userinput.equals("Run")) {
 			String [] sourceCode = sourceTab.getText().split("\\r?\\n");
 			String code = "";
 			try {
@@ -216,6 +217,24 @@ public class Pep8Sim implements ActionListener {
 			String[] codeArray = code.split(" ");
 			byte[] byteArray = new byte[codeArray.length];
 			ObjCode.setText(code);
+			try {
+				int i = 0;
+//                    for (int i = 0; i < codeArray.length; i++) {
+//                        byteArray[i] = (byte) (Integer.parseUnsignedInt(codeArray[i], 16));
+//                    }
+				while (i < codeArray.length && !codeArray[i].equals("zz")) {
+					byteArray[i] = (byte) (Integer.parseUnsignedInt(codeArray[i], 16));
+					i++;
+				}
+			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(myPep8View, "Error in loading Object Code.");
+				return;
+			}
+			myMachine.store((short) 0, byteArray);
+			myMachine.run();
+		} else if (userinput.equals("Run Object Code")) {
+			String[] codeArray = ObjCode.getText().split(" ");
+			byte[] byteArray = new byte[codeArray.length];
 			try {
 				int i = 0;
 //                    for (int i = 0; i < codeArray.length; i++) {
