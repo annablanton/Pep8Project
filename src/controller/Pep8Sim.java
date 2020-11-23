@@ -27,30 +27,19 @@ public class Pep8Sim implements ActionListener {
 	private static GUI myPep8View;
 	private static Machine myMachine;
 	private JPanel upPanel = new JPanel();
-	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private Font myFont = new Font("Plain", Font.BOLD, 17);
+	private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private final Font myFont = new Font("Plain", Font.BOLD, 17);
 	private JTextArea ObjCode;
 	private JTextArea sourceTab;
 	private JTextArea AsListing;
 	private JPanel lineStartPanel;
-	private JTabbedPane tabbedPane;
 	private JTextArea traceTab;
 	private JTabbedPane tabbedPane2;
 	private JTextArea BatchIO;
 	private JTextArea Terminal;
 	private int batchIndex = -1;
-	private Scanner wordsScanner;
 	private JMenuBar menuBar;
-	private JMenu File;
-	private JMenuItem newMenu;
-	private JMenuItem openMenu;
-	private JMenu Edit;
-	private JMenuItem cutMenu;
-	private JMenuItem pasteMenu;
-	private JMenu Build;
-	private JMenuItem loadMenu;
-	private JMenuItem runMenu;
-	private Decode dec;
+	private final Decode dec;
 
 	/**
 	 * Main method of the program.
@@ -197,7 +186,7 @@ public class Pep8Sim implements ActionListener {
 				ObjCode.setText("Please choose .txt file or type object Code here");
 		} else if (userinput.equals("Save")) {
 			try {
-				wordsScanner = new Scanner(
+				Scanner wordsScanner1 = new Scanner(
 						"INPUT:" + ObjCode.getText().toString() + "\n OUTPUT:" + myPep8View.getOutput().toString());
 				Scanner wordsScanner = new Scanner(
 						"INPUT:" + ObjCode.getText() + "\n OUTPUT:" + myPep8View.getOutput());
@@ -226,6 +215,7 @@ public class Pep8Sim implements ActionListener {
 			}
 			String[] codeArray = code.split(" ");
 			byte[] byteArray = new byte[codeArray.length];
+			ObjCode.setText(code);
 			try {
 				int i = 0;
 //                    for (int i = 0; i < codeArray.length; i++) {
@@ -258,7 +248,7 @@ public class Pep8Sim implements ActionListener {
 		lineStartPanel.setBorder(new TitledBorder(null, "CODE", TitledBorder.CENTER, TitledBorder.TOP, myFont, null));
 		lineStartPanel.setPreferredSize(new Dimension(screenSize.width / 4, screenSize.height * 9 / 14));
 		/* Create first sub-panel with Tabbedpane */
-		tabbedPane = new JTabbedPane();
+		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setSize(screenSize.width / 4, screenSize.height * 3 / 14);
 		tabbedPane.setFont(myFont);
 
@@ -326,45 +316,45 @@ public class Pep8Sim implements ActionListener {
 	private void MenuBar() {
 		/* Create file menu with sub-menu */
 		menuBar = new JMenuBar();
-		File = new JMenu("File");
-		File.setFont(myFont);
-		newMenu = new JMenuItem("New");
+		JMenu file = new JMenu("File");
+		file.setFont(myFont);
+		JMenuItem newMenu = new JMenuItem("New");
 		newMenu.addActionListener(this);
-		openMenu = new JMenuItem("Open");
+		JMenuItem openMenu = new JMenuItem("Open");
 		openMenu.addActionListener(this);
 		newMenu.setFont(myFont);
 		openMenu.setFont(myFont);
-		File.add(newMenu);
-		File.add(openMenu);
+		file.add(newMenu);
+		file.add(openMenu);
 
 		/* Create edit menu with sub-menu */
-		Edit = new JMenu("Edit");
-		Edit.setFont(myFont);
-		cutMenu = new JMenuItem("Cut Object Code");
+		JMenu edit = new JMenu("Edit");
+		edit.setFont(myFont);
+		JMenuItem cutMenu = new JMenuItem("Cut Object Code");
 		cutMenu.addActionListener(this);
-		pasteMenu = new JMenuItem("Paste into Object Code");
+		JMenuItem pasteMenu = new JMenuItem("Paste into Object Code");
 		pasteMenu.addActionListener(this);
 		cutMenu.setFont(myFont);
 		pasteMenu.setFont(myFont);
-		Edit.add(cutMenu);
-		Edit.add(pasteMenu);
+		edit.add(cutMenu);
+		edit.add(pasteMenu);
 
 		/* Create build menu with sub-menu */
-		Build = new JMenu("Build");
-		Build.setFont(myFont);
-		loadMenu = new JMenuItem("Load");
+		JMenu build = new JMenu("Build");
+		build.setFont(myFont);
+		JMenuItem loadMenu = new JMenuItem("Load");
 		loadMenu.addActionListener(this);
-		runMenu = new JMenuItem("Run");
+		JMenuItem runMenu = new JMenuItem("Run");
 		runMenu.addActionListener(this);
 		loadMenu.setFont(myFont);
 		runMenu.setFont(myFont);
-		Build.add(loadMenu);
-		Build.add(runMenu);
+		build.add(loadMenu);
+		build.add(runMenu);
 
 		/* Adding all menu buttons to menubar */
-		menuBar.add(File);
-		menuBar.add(Build);
-		menuBar.add(Edit);
+		menuBar.add(file);
+		menuBar.add(build);
+		menuBar.add(edit);
 	}
 
 	public void reset() {

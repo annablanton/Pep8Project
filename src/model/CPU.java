@@ -1,13 +1,12 @@
 package model;
 
 import controller.Pep8Sim;
+import model.instructions.*;
 import view.GUI;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
 /**
  * A class which represents a virtual CPU. Used by the Machine class to execute

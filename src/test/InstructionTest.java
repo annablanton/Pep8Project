@@ -2,6 +2,7 @@ package test;
 
 import controller.Pep8Sim;
 import model.*;
+import model.instructions.*;
 import org.junit.Before;
 import org.junit.Test;
 import view.GUI;

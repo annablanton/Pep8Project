@@ -21,6 +21,9 @@ public class ALU {
 	private Flag vFlag;
 	private Flag cFlag;
 	private GUI view;
+	private BinaryCalculator binaryCalc;
+	private HexCalculator hexCalc;
+	private DecimalCalculator decCalc;
 
 	public ALU(GUI v) {
 		nFlag = Flag.N;
@@ -28,6 +31,9 @@ public class ALU {
 		vFlag = Flag.V;
 		cFlag = Flag.C;
 		view = v;
+		binaryCalc = new BinaryCalculator();
+		hexCalc = new HexCalculator();
+		decCalc = new DecimalCalculator();
 	}
 
 	/**

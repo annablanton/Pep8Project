@@ -306,6 +306,7 @@ public class Decode {
 							}
 						}
 						hexBuild.append(String.format("%02X", spec));
+						System.out.println(instructions[1]);
 						hexBuild.append(String.format("%s", instructions[1].substring(2)));
 						break;
 					case "SUBA":
