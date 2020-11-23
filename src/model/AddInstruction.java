@@ -8,7 +8,7 @@ import java.util.Map;
 public class AddInstruction extends MachineInstruction {
 
 	public AddInstruction(AddressingMode a, RegName r) {
-		super("0111", a, r);
+		super("0111", a, r); 
 	}
 
 	public boolean execute(Memory m, Map<RegName, Register> regMap, ALU alu, GUI view, Pep8Sim controller) {

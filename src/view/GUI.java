@@ -157,7 +157,7 @@ public class GUI extends JFrame {
 	/** Setting words scanner to scanner result. **/
 	private Scanner wordsScanner;
 	/** Setting screensize to calculate size of application **/
-	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
 	/** Tells which character of BatchIO to send **/
 	private JCheckBox Nbox;
 	private JCheckBox Zbox;
@@ -700,6 +700,7 @@ public class GUI extends JFrame {
 		}
 		sb.replace(0, 1, "");
 		Memory.setText(sb.toString());
+		Memory.setCaretPosition(0);
 	}
 
 	/**

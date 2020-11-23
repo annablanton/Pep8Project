@@ -468,7 +468,7 @@ public class Decode {
 							}
 						}
 						hexBuild.append(String.format("%02X", spec));
-						hexBuild.append(String.format("%s", instructions[1].substring(2)));
+						hexBuild.append(String.format("%s", instructions[1].substring(2))); 
 						break;
 					}
 				}
@@ -486,7 +486,8 @@ public class Decode {
 				index++;
 			} else {
 				build.append(" ");
-				index = 0;
+				build.append(objCode.charAt(i));
+				index = 1;
 			}
 		}
 		return build.toString();
