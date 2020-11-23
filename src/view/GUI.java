@@ -107,7 +107,6 @@ public class GUI extends JFrame {
 	/** Setting words scanner to scanner result. **/
 	private Scanner wordsScanner;
 	/** Setting screensize to calculate size of application **/
-	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	/** Tells which character of BatchIO to send **/
 	private JCheckBox Nbox;
