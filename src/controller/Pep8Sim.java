@@ -90,6 +90,7 @@ public class Pep8Sim implements ActionListener {
 		UpPanel();
 		lineStartPanel();
 		BatchIO();
+		MenuBar();
 		dec = new Decode();
 	}
 
