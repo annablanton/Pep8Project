@@ -25,7 +25,7 @@ public class ALUTest {
 	@Before
 	public void setUp() {
 		view = new GUI(new JPanel(), new JPanel(), new JTabbedPane(), new JMenuBar());
-		alu = new ALU(view);
+		alu = new ALU(view); 
 		r = new Register();
 	}
 

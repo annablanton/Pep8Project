@@ -469,7 +469,7 @@ public class Decode {
 							}
 						}
 						hexBuild.append(String.format("%02X", spec));
-						hexBuild.append(String.format("%s", instructions[1].substring(2)));
+						hexBuild.append(String.format("%s", instructions[1].substring(2))); 
 						break;
 					}
 				}
@@ -487,7 +487,8 @@ public class Decode {
 				index++;
 			} else {
 				build.append(" ");
-				index = 0;
+				build.append(objCode.charAt(i));
+				index = 1;
 			}
 		}
 		return build.toString();
@@ -501,9 +502,13 @@ public class Decode {
 		//:comment,,comment
 		String[] ins3 = new String[] {null};
 		
+		String str = ";Comment\n;this code does this\n\nADDA	0x000D, i\nSTOP";
+		String[] ins4 = str.split("\\r?\\n");
+		
 		System.out.println(dec.assemblyToHex(ins));
 		System.out.println(dec.assemblyToHex(ins2));
 		System.out.println(dec.assemblyToHex(ins3));
+		System.out.println(dec.assemblyToHex(ins4));
 		
 		String ans = dec.format(dec.assemblyToHex(ins));
 		System.out.println(ans);
